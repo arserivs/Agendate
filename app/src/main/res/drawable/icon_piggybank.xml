@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:pathData="M 23.426 30.207 C 24.335612983 30.207 25.073 30.944387017 25.073 31.854 C 25.073 32.763612983 24.335612983 33.501 23.426 33.501 C 22.516387017 33.501 21.779 32.763612983 21.779 31.854 C 21.779 30.944387017 22.516387017 30.207 23.426 30.207 Z" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M36.929,37.325h5.282v7.41v0.401
+c-0.736,0.571-2.167,1.238-4.096,1.238c-3.547,0-6.69-2.238-6.69-8.097c0-7.12,2.813-9.001,7.195-9.001
+c1.548,0,3.287,0.405,3.906,0.667" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 36.974 25.57 L 36.974 50.465" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="bevel"
+        android:strokeMiterLimit="10"
+        android:strokeLineCap="round"
+        android:pathData="M31.102,57.356l-2.317,4.242c-0.436,0.673-1.183,1.079-1.984,1.079h-1.068c-1.58,0-2.716-1.521-2.268-3.035l1.608-4.039
+M45.182,56.689l3.377,4.909c0.436,0.673,1.182,1.079,1.984,1.079h1.066c1.582,0,2.717-1.521,2.27-3.035l-2.037-6.877
+M36.955,18.53
+c-3.447,0-6.709,0.648-9.643,1.791c-0.05-0.072-0.093-0.147-0.145-0.219c-2.237-3.037-6.513-3.687-9.55-1.45l3.718,5.049
+c-3.708,2.893-6.299,6.789-7.127,11.188h-2.438c-0.552,0-1,0.447-1,1v5.883c0,0.553,0.448,1,1,1h2.873
+c2.553,8.381,6.347,14.585,22.311,14.585c12.735,0,23.059-8.691,23.059-19.413S49.689,18.53,36.955,18.53z
+M60.199,33.104
+c3.201-0.026,5.848-3.385,3.922-6.383c-1.553-2.419-4.404-0.734-2.838,1.824c1,1.635,4.422,3.647,7.945-0.35" />
+</vector>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10"
+        android:pathData="M9.797,60.031
+c0.267-1.157,0.81-2.462,1.914-2.984c2.172-1.028,6.449-1.622,6.449-1.622l0.553-3.315c0,0-5.587-1.421-5.587-8.481
+c0-5.866,4.667-7.323,7.741-7.323
+M31.562,60.031c-0.267-1.157-0.811-2.462-1.914-2.984c-2.172-1.028-6.45-1.622-6.45-1.622
+l-0.552-3.315c0,0,5.586-1.421,5.586-8.481c0-5.866-4.667-7.323-7.74-7.323" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 38.183 40.349 L 58.385 40.349" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 38.183 45.62 L 58.385 45.62" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 38.183 50.891 L 58.385 50.891" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M41.117,30.393H28.118
+c-0.975,0-1.765-0.779-1.765-1.739l0,0c0-0.961,0.79-1.739,1.765-1.739h12.999c0.975,0,1.765,0.778,1.765,1.739l0,0
+C42.882,29.613,42.092,30.393,41.117,30.393z" />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10"
+        android:pathData="M 62.678 24.757 L 65.634 27.671 L 74.696 18.75 " />
+    <path
+        android:strokeColor="#7e9fec"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M68.485,33.775v30.586
+c0,1.94-1.596,3.514-3.564,3.514H4.315c-1.969,0-3.565-1.573-3.565-3.514V25.707c0-1.94,1.596-3.514,3.565-3.514h53.496
+M68.422,12.125c-5.98,0-10.829,4.778-10.829,10.674c0,5.895,4.849,10.673,10.829,10.673c5.979,0,10.828-4.778,10.828-10.673
+C79.25,16.903,74.401,12.125,68.422,12.125z" />
+</vector>

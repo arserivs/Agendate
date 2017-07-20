@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="80dp"
+    android:height="80dp"
+    android:viewportWidth="80"
+    android:viewportHeight="80">
+
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="bevel"
+        android:strokeMiterLimit="10"
+        android:pathData="M50.316,21.21
+c-7.471,0.425-13.222,2.786-13.222,2.786s-6.634-2.89-16.075-2.89c-9.442,0-16.075,2.89-16.075,2.89V66.33
+c0,0,6.633-2.891,16.075-2.891c9.441,0,16.075,2.891,16.075,2.891s6.633-2.891,16.075-2.891s16.075,2.891,16.075,2.891V37.444" />
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="bevel"
+        android:strokeMiterLimit="10"
+        android:pathData="M 37.095 23.996 L 37.095 66.33" />
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="round"
+        android:strokeMiterLimit="10"
+        android:pathData="M 61.938 13.733 C 69.1823190635 13.733 75.055 19.6056809365 75.055 26.85 C 75.055 34.0943190635 69.1823190635 39.967 61.938 39.967 C 54.6936809365 39.967 48.821 34.0943190635 48.821 26.85 C 48.821 19.6056809365 54.6936809365 13.733 61.938 13.733 Z" />
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 59.375 24.773 L 64.502 24.773" />
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 59.375 33.047 L 64.502 33.047" />
+    <path
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:strokeMiterLimit="10"
+        android:pathData="M 61.938 24.773 L 61.938 33.047" />
+    <path
+        android:fillColor="#000000"
+        android:strokeColor="#898989"
+        android:strokeWidth="1.5"
+        android:pathData="M 61.939 20.539 C 62.3626024031 20.539 62.706 20.8823975969 62.706 21.306 C 62.706 21.7296024031 62.3626024031 22.073 61.939 22.073 C 61.5153975969 22.073 61.172 21.7296024031 61.172 21.306 C 61.172 20.8823975969 61.5153975969 20.539 61.939 20.539 Z" />
+</vector>

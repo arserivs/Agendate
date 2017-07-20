@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="?attr/actionBarSize"
+    android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="right"
+    >
+
+    <TextView
+        android:id="@+id/actionbar_search_close"
+        android:layout_width="46dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/icon_close2"
+        android:layout_margin="5dp"
+        android:textColor="#ffffff"
+        android:gravity="center"
+        android:textSize="13sp"
+        />
+
+</LinearLayout>

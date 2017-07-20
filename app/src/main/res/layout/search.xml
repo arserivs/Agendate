@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:id="@+id/search_layout"
+    android:background="@color/colorPrimary">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:textColorHint="#7e9fec"
+        android:textSize="20dp"
+        android:id="@+id/search_edit_text"
+        android:textColor="@android:color/white"
+        android:hint="Empezá a escribir acá"
+        android:tag="bold"
+        android:imeOptions="actionNext"
+        android:textCursorDrawable="@drawable/search_cursor"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="60dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:tag="regular"
+        android:textColor="#7e9fec"
+        android:textSize="12dp"
+        android:layout_marginTop="20dp"
+        android:text="SELECCIONÁ UNA DE LAS OPCIONES DISPONIBLES:"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarThumbVertical="@drawable/custom_scroll_style"
+        android:layout_marginTop="10dp"
+        android:divider="#7e9fec"
+        android:dividerHeight="2px"
+        android:id="@+id/search_list_view">
+
+    </ListView>
+
+</LinearLayout>

@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "887444862878",
+    "firebase_url": "https://agenda-73c82.firebaseio.com",
+    "project_id": "agenda-73c82",
+    "storage_bucket": "agenda-73c82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887444862878:android:36411e838b115c90",
+        "android_client_info": {
+          "package_name": "com.agendate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887444862878-okbct913pg3qk3tj6uk8gibe2kpg7tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv6JyrHtRU_gkKj5a7jadi9Jzj6Tglwo4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887444862878:android:effd883c9564851e",
+        "android_client_info": {
+          "package_name": "com.arsoft.agendate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887444862878-okbct913pg3qk3tj6uk8gibe2kpg7tsu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCv6JyrHtRU_gkKj5a7jadi9Jzj6Tglwo4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
