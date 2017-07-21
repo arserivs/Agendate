@@ -4,9 +4,13 @@ package com.arsoft.agendate;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -18,6 +22,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
@@ -26,11 +31,10 @@ import android.widget.TextView;
 
 
 import com.arsoft.agendate.functions.Funciones;
-import com.arsoft.agendate.json.JsonBaseItem;
 import com.arsoft.agendate.json.User;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Doctor;
-import com.arsoft.agendate.views.StaticHelpers;
+import com.arsoft.agendate.models.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,12 +42,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private boolean didVerifyVersion = false;
+    private DatabaseReference mDatabase ;
 
 
 
@@ -52,6 +59,8 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("");
         setContentView(R.layout.welcome);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Funciones.showDialog(this, mPhoneNumber);
 
@@ -110,25 +119,6 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        locales.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        pagoMiContacto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                intent.putExtra("PagoMiContacto", "S");
-                startActivity(intent);
-            }
-        });
-        */
-
 
         registrarPaciente.setOnClickListener(new View.OnClickListener() {
 
@@ -140,47 +130,24 @@ public class WelcomeActivity extends AppCompatActivity {
 
         });
 
-        final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+        AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
+        Log.d("agendate", "----------------lenght-" + manager.getAccounts().length) ;
+        List<String> cuentas = new ArrayList<String>() ;
+        if (manager.getAccounts().length>0) {
+            for (Account list : manager.getAccounts()) {
+                Log.d("agendate", "-----------------" + list.toString()) ;
+                if (list.name.indexOf("@gmail.com")>0 || list.name.indexOf("@google.com")>0) {
+                    cuentas.add(list.name) ;
+                }
+            }
 
-        if(ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") != PackageManager.PERMISSION_GRANTED) {
-            final int REQUEST_CODE_ASK_PERMISSIONS = 123;
-            ActivityCompat.requestPermissions(this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+        } else {
+
         }
 
-        TelephonyManager tMgr = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        obtenerCuenta("archie.riveros@gmail.com") ;
 
 
-        final String key = Funciones.limpiarTelefono(tMgr.getLine1Number()) ;
-        System.out.println("-------"+key);
-        mDatabase.child("doctor").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Doctor post = dataSnapshot.getValue(Doctor.class);
-                if (post != null) {
-                    System.out.println("nombre----" +  post.nombre);
-                    Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
-
-                    final UserInfo userInfo = new UserInfo() ;
-                    userInfo.nroTelefono = key;
-                    userInfo.nombre = post.nombre ;
-
-                    Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                    intent.putExtra("userInfo", userInfo) ;
-                    startActivity(intent);
-
-
-                } else {
-                    Funciones.showErrorDialog(WelcomeActivity.this, "No esta registrado como Doctor en la app");
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
 
 
 
@@ -208,6 +175,76 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
 
+    private void obtenerCuenta(final String usuario) {
+
+
+
+        mDatabase.child("usuario").addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Usuario dbusuario = postSnapshot.getValue(Usuario.class);
+                    if (dbusuario.email.equals(usuario)) {
+                        login(dbusuario.telefono) ;
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("agendate","The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+
+    }
+
+
+
+
+    private void login(final String telefono) {
+
+
+
+        final String key = Funciones.limpiarTelefono(telefono) ;
+        Log.d("agendate","-------"+key + "--" + telefono);
+        mDatabase.child("doctor").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Doctor post = dataSnapshot.getValue(Doctor.class);
+                if (post != null) {
+                    Log.d("agendate","nombre----" +  post.nombre);
+                    Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
+
+                    final UserInfo userInfo = new UserInfo() ;
+                    userInfo.nroTelefono = key;
+                    userInfo.nombre = post.nombre ;
+
+                    Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
+                    intent.putExtra("userInfo", userInfo) ;
+                    startActivity(intent);
+
+
+                } else {
+                    Funciones.showErrorDialog(WelcomeActivity.this, "No esta registrado como Doctor en la app");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("agendate","The read failed: " + databaseError.getCode());
+            }
+        });
+
+
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -224,6 +261,5 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
     }
-
 
 }

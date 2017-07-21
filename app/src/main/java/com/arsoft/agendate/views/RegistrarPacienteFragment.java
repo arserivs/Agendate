@@ -132,7 +132,7 @@ public class RegistrarPacienteFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Paciente post = dataSnapshot.getValue(Paciente.class);
                         if (post != null) {
-                            System.out.println("nombre----" +  post.nombre);
+                            Log.d("agendate","nombre----" +  post.nombre);
                             Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
                         } else {
                             Funciones.showDialog(getActivity(), "Debe insertar");
@@ -144,7 +144,7 @@ public class RegistrarPacienteFragment extends Fragment {
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        System.out.println("The read failed: " + databaseError.getCode());
+                        Log.d("agendate","The read failed: " + databaseError.getCode());
                     }
                 });
 

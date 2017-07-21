@@ -133,9 +133,9 @@ public class Funciones {
 
 
 
-        //System.out.println("******" + res.toString()) ;
+        //Log.d("agendate","******" + res.toString()) ;
         if (res.toString().substring(0,4).equals("+595")) {
-            //System.out.println("------" + "0" + res.toString().substring(5, res.toString().length())) ;
+            //Log.d("agendate","------" + "0" + res.toString().substring(5, res.toString().length())) ;
             return "0" + res.toString().substring(5, res.toString().length()) ;
         }
 

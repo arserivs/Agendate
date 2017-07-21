@@ -62,7 +62,7 @@ public class AgendaDoctorFragment extends Fragment {
     private static TextView agendaFecha  ;
     private UserInfo userInfo ;
     private CustomListView listaAgendaDoctor ;
-    final ProgressDialog progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
+    private ProgressDialog progress ;
 
 
 
@@ -74,6 +74,7 @@ public class AgendaDoctorFragment extends Fragment {
         View returnView = inflater.inflate(R.layout.agenda_doctor, container, false);
         userInfo =  ((DrawerActivity)getActivity()).getUserInfo() ;
         listaAgendaDoctor = (CustomListView) returnView.findViewById(R.id.agenda_doctor_lista);
+
 
         // Use the current date as the default date in the picker
         c = Calendar.getInstance();
@@ -88,7 +89,9 @@ public class AgendaDoctorFragment extends Fragment {
         });
 
 
-        agendaFecha.setText(dateFormat.format(c.getTime()));
+        //agendaFecha.setText(dateFormat.format(c.getTime()));
+        agendaFecha.setText("20/07/2017");
+        cargarTurnos() ;
 
 
 
@@ -104,11 +107,12 @@ public class AgendaDoctorFragment extends Fragment {
         //}
 
 
-
+        progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
+        //.orderByChild("hora")
         ("".equals(agendaFecha.getText().toString())
                 ? mDatabase.child("turno").child(userInfo.nroTelefono)
                 : mDatabase.child("turno").child(userInfo.nroTelefono).child(agendaFecha.getText().toString())
-        ).orderByChild("fecha").orderByChild("hora").addValueEventListener(new ValueEventListener() {
+        ).orderByChild("fecha").addValueEventListener(new ValueEventListener() {
 
 
             @Override
@@ -133,7 +137,7 @@ public class AgendaDoctorFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 progress.dismiss();
-                System.out.println("The read failed: " + databaseError.getCode());
+                Log.d("agendate","The read failed: " + databaseError.getCode());
             }
         });
 
@@ -209,6 +213,8 @@ public class AgendaDoctorFragment extends Fragment {
     public static void setearCalendario(String fecha) {
 
         agendaFecha.setText(fecha);
+
+
 
 
 
