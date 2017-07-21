@@ -18,6 +18,7 @@ public class Turno {
     public String paciente ;
     public String fecha ;
     public String hora ;
+    public String nombre ;
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -26,11 +27,12 @@ public class Turno {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Turno(String confirma, String paciente, String fecha, String hora) {
+    public Turno(String confirma, String paciente, String fecha, String hora, String nombre) {
         this.confirma = confirma;
         this.paciente = paciente;
         this.fecha = fecha;
         this.hora = hora;
+        this.nombre = nombre;
     }
 
     // [START post_to_map]
@@ -41,6 +43,7 @@ public class Turno {
         result.put("paciente", paciente);
         result.put("fecha", fecha);
         result.put("hora", hora);
+        result.put("nombre", nombre);
         result.put("starCount", starCount);
         result.put("stars", stars);
 

@@ -45,6 +45,8 @@ import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.User;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.json.typeconverter.StringToMenuStatus;
+import com.arsoft.agendate.views.AgendaDoctorFragment;
+import com.arsoft.agendate.views.RegistrarPacienteFragment;
 import com.arsoft.agendate.views.StaticHelpers;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -119,14 +121,15 @@ public class DrawerActivity extends AppCompatActivity {
     }
 
     private DrawerMenuItem[] menuLevel1 = {
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Visión Online", null, false, null),
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Encontrar locales", null, false, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Dental Care", null, false, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Conocénos", null, false, null),
             // new DrawerMenuItem(R.drawable.menu_icon_promociones, "Promociones y beneficios", null, false),
     };
 
     private DrawerMenuItem[] menuLevel2 = {
             new DrawerMenuItem(R.drawable.menu_icon_logout, "Inicio", DashboardFragment.class, true, null),
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Pantalla 1", PantallaFragment.class, true, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Agenda Personal", RegistrarPacienteFragment.class, true, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Registrar Paciente", AgendaDoctorFragment.class, true, null),
             new DrawerMenuItem(R.drawable.menu_icon_logout, "Servicios", 3),
     };
 
@@ -137,7 +140,7 @@ public class DrawerActivity extends AppCompatActivity {
 
     private DrawerMenuItem[] menuLevel3 = {
             new DrawerMenuItem(R.drawable.icon_arrow_white_back, "Servicios", 2),
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Pantalla 2", PantallaFragment.class, true, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Pantalla 2", RegistrarPacienteFragment.class, true, null),
     };
 
     private ActionBarDrawerToggle drawerToggle;
@@ -156,6 +159,14 @@ public class DrawerActivity extends AppCompatActivity {
         this.userInfo = userInfo;
     }
 
+    private DatabaseReference mDatabase;
+    public DatabaseReference getMDatabase() {
+        return mDatabase;
+    }
+
+    public void setMDatabase(DatabaseReference mDatabase) {
+        this.mDatabase = mDatabase;
+    }
 
 
     //Limpia cache por cuestiones de seguridad
@@ -197,20 +208,7 @@ public class DrawerActivity extends AppCompatActivity {
             this.userInfo = (UserInfo) extras.get("userInfo") ;
         }
 
-        //Funciones.showDialog(this, " drawer telefono" + this.userInfo.nroTelefono);
-
-
-
-        /*
-        if (savedInstanceState != null) {
-            this.userInfo = savedInstanceState.getParcelable("userInfo");
-            this.notificationsCount = savedInstanceState.getInt("notificationsCount");
-            this.loggedin = savedInstanceState.getBoolean("loggedin");
-
-        } else {
-            Funciones.showDialog(this, "no entra a userInfo");
-        }
-        */
+        this.setMDatabase(FirebaseDatabase.getInstance().getReference());
 
 
         final ListView menuList = (ListView) findViewById(R.id.drawermain_listView);
@@ -501,12 +499,6 @@ public class DrawerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 StaticHelpers.showDialog(getApplicationContext(), "actionbar_search");
-                PantallaFragment fragment = new PantallaFragment();
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.drawermain_mainContent, fragment);
-                ft.addToBackStack(null);
-                ft.setTransition(FragmentTransaction.TRANSIT_NONE);
-                ft.commit();
             }
         });
 
@@ -659,16 +651,6 @@ public class DrawerActivity extends AppCompatActivity {
                         case "VerCentroAprobaciones":
                             //intent = new Intent(DrawerActivity.this, CentroAprobacionesActivity.class);
                             //intent.putExtra("cantidadAprobaciones", bundle.get("cantidadAprobaciones").toString());
-
-                            Bundle bundleFinal = new Bundle();
-                            bundleFinal.putString("cantidadAprobaciones", bundle.get("cantidadAprobaciones").toString());
-                            FragmentTransaction ft = getFragmentManager().beginTransaction();
-                            PantallaFragment fragment = new PantallaFragment();
-                            fragment.setArguments(bundleFinal);
-                            ft.replace(R.id.loggedinbase_frameLayout, fragment);
-                            ft.addToBackStack(null);
-                            ft.commit();
-
 
                             break;
                         default:

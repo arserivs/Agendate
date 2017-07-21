@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 
 import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.User;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Doctor;
@@ -50,7 +51,7 @@ import java.util.List;
 public class WelcomeActivity extends AppCompatActivity {
 
     private boolean didVerifyVersion = false;
-    private DatabaseReference mDatabase ;
+    //private DatabaseReference mDatabase ;
 
 
 
@@ -60,7 +61,7 @@ public class WelcomeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("");
         setContentView(R.layout.welcome);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //Funciones.showDialog(this, mPhoneNumber);
 
@@ -106,29 +107,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         topTextView.setText(titleString);
 
-        final View ingresarAgenda = findViewById(R.id.welcome_layoutIngresarAgenda);
-        //final View locales = findViewById(R.id.welcome_layoutLocales);
-        //final View pagoMiContacto = findViewById(R.id.welcome_layoutPagoMiContacto);
-        final View registrarPaciente = findViewById(R.id.welcome_layoutRegistrarPaciente);
-
-        ingresarAgenda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        registrarPaciente.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-
-                registrarse();
-            }
-
-        });
 
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d("agendate", "----------------lenght-" + manager.getAccounts().length) ;
@@ -149,20 +127,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
 
-
-
-        /*
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                intent.putExtra("userInfo", userInfo) ;
-                startActivity(intent);
-            }
-        }, 2000);
-        */
-
         if(!didVerifyVersion) {
             User.verificarVersion(this);
             didVerifyVersion = true;
@@ -177,8 +141,28 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void obtenerCuenta(final String usuario) {
 
+        final List<String> p = new ArrayList<>() ;
+        p.add("usuario") ;
+        //p.add(usuario) ;
 
+        DBApp.request(1, p, this, new DBApp.DBAppListener(){
+            @Override
+            public void respuesta(DataSnapshot datos, String error) {
+                if (error != null) {
+                    Funciones.showErrorDialog(WelcomeActivity.this, error);
+                } else {
+                    for (DataSnapshot postSnapshot: datos.getChildren()) {
+                        Usuario dbusuario = postSnapshot.getValue(Usuario.class);
+                        if (dbusuario.email.equals(usuario)) {
+                            login(dbusuario.telefono);
+                        }
+                    }
+                }
+            }
 
+        });
+
+        /*
         mDatabase.child("usuario").addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -198,6 +182,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 Log.d("agendate","The read failed: " + databaseError.getCode());
             }
         });
+        */
 
 
 
@@ -210,8 +195,43 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
 
-        final String key = Funciones.limpiarTelefono(telefono) ;
-        Log.d("agendate","-------"+key + "--" + telefono);
+        //final String key = Funciones.limpiarTelefono(telefono) ;
+        //Log.d("agendate","-------"+key + "--" + telefono);
+
+        final List<String> p = new ArrayList<>() ;
+        p.add("doctor") ;
+        p.add(telefono) ;
+
+        DBApp.request(2, p, this, new DBApp.DBAppListener(){
+            @Override
+            public void respuesta(DataSnapshot datos, String error) {
+                if (error != null) {
+                    Funciones.showErrorDialog(WelcomeActivity.this, error);
+                } else {
+                    Doctor post = datos.getValue(Doctor.class);
+                    if (post != null) {
+                        Log.d("agendate", "nombre----" + post.nombre);
+                        //Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
+
+                        final UserInfo userInfo = new UserInfo();
+                        userInfo.nroTelefono = telefono;
+                        userInfo.nombre = post.nombre;
+
+                        Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
+                        intent.putExtra("userInfo", userInfo);
+                        startActivity(intent);
+
+
+                    } else {
+                        Funciones.showErrorDialog(WelcomeActivity.this, "No esta registrado como Doctor en la app");
+                    }
+                }
+
+            }
+
+        });
+
+        /*
         mDatabase.child("doctor").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -219,7 +239,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 Doctor post = dataSnapshot.getValue(Doctor.class);
                 if (post != null) {
                     Log.d("agendate","nombre----" +  post.nombre);
-                    Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
+                    //Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
 
                     final UserInfo userInfo = new UserInfo() ;
                     userInfo.nroTelefono = key;
@@ -241,6 +261,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 Log.d("agendate","The read failed: " + databaseError.getCode());
             }
         });
+        */
 
 
     }

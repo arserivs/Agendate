@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,10 @@ import android.widget.TextView;
 
 //import com.arsoft.agendate.json.Dashboard;
 //import com.arsoft.agendate.json.DashboardProducto;
+import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.UserInfo;
+import com.arsoft.agendate.models.Paciente;
 import com.arsoft.agendate.models.Turno;
 import com.arsoft.agendate.views.AgendaDoctorFragment;
 import com.arsoft.agendate.views.DashboardItemBlue;
@@ -25,13 +29,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class DashboardFragment extends Fragment {
 
     //private Dashboard dashboard;
-    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
+    //final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    //private DatabaseReference mDatabase ;
+    private UserInfo userInfo ;
 
 
 
@@ -52,7 +64,9 @@ public class DashboardFragment extends Fragment {
         final Typeface mbBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/FSMillbank-Bold.ttf");
         final Typeface mbLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/FSMillbank-Light.ttf");
 
-        final UserInfo userInfo =  ((DrawerActivity)getActivity()).getUserInfo() ;
+        userInfo =  ((DrawerActivity)getActivity()).getUserInfo() ;
+        //mDatabase = ((DrawerActivity)getActivity()).getMDatabase() ;
+
         LoggedinBaseFragment.setTitle(getActivity(), "Hola " + userInfo.nombre, null);
         try {
 
@@ -85,14 +99,44 @@ public class DashboardFragment extends Fragment {
 
             linearLayout.addView(view);
 
-            mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha").limitToFirst(1).addChildEventListener(new ChildEventListener() {
+
+
+            final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            final Calendar c = Calendar.getInstance();
+            final String fecha=dateFormat.format(c.getTime()) ;
+            Log.d("agendate", "fecha=" + fecha+"_00:00") ;
+
+
+            final List<String> p = new ArrayList<>() ;
+            p.add("turno") ;
+            p.add(userInfo.nroTelefono) ;
+            p.add("fecha_hora") ;
+            p.add(fecha+"_00:00") ;
+            p.add("1") ;
+
+            DBApp.request(4, p, getActivity(), new DBApp.DBAppListener(){
+                @Override
+                public void respuesta(DataSnapshot datos, String error) {
+                    if (error != null) {
+                        Funciones.showErrorDialog(getActivity(), error);
+                    } else {
+                        Turno t = datos.getValue(Turno.class);
+                        subtitle.setText(t.nombre + ", el " + t.fecha + " a las " + t.hora);
+                        view.setVisibility(View.VISIBLE);
+                    }
+                }
+
+            });
+
+            /*
+            mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").limitToFirst(1).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    //proximoTurno(dataSnapshot.getValue(Turno.class)) ;
-
                     Turno t = dataSnapshot.getValue(Turno.class);
-                    subtitle.setText(t.paciente + ", el " + t.fecha + " a las " + t.hora);
+                    subtitle.setText(t.nombre + ", el " + t.fecha + " a las " + t.hora);
                     view.setVisibility(View.VISIBLE);
+
+                    //cargarProximoTurno(dataSnapshot.getValue(Turno.class), subtitle, view);
 
                 }
 
@@ -116,6 +160,7 @@ public class DashboardFragment extends Fragment {
 
                 }
             });
+            */
 
 
             DashboardItemBlue view2 = (DashboardItemBlue) inflater.inflate(R.layout.dashboard_item_blue, linearLayout, false);
@@ -209,22 +254,4 @@ public class DashboardFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
-    /*
-    public void openAH(DashboardProducto producto){
-
-        StaticHelpers.showDialog(getActivity(), "openAH");
-
-    }
-
-    public void openCC(DashboardProducto producto){
-
-        StaticHelpers.showDialog(getActivity(), "openCC");
-    }
-
-    public void openTC(DashboardProducto producto){
-        StaticHelpers.showDialog(getActivity(), "openTC");
-
-    }
-
-*/
 }

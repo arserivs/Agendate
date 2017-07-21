@@ -15,7 +15,7 @@
     <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
         <item name="background">@null</item>
         <item name="titleTextStyle">@style/ActionBarTitle</item>
-        <item name="logo">@drawable/icon_v_colored</item>
+        <item name="logo">@drawable/icon_app</item>
         <item name="displayOptions">useLogo|showHome|showTitle|homeAsUp</item>
     </style>
 
@@ -40,7 +40,7 @@
         <item name="background">@null</item>
         <item name="titleTextStyle">@style/ActionBarTitleWhite</item>
         <item name="android:windowContentOverlay">@null</item>
-        <item name="logo">@drawable/icon_v_white</item>
+        <item name="logo">@drawable/icon_app</item>
         <item name="displayOptions">useLogo|showHome|showTitle|homeAsUp</item>
     </style>
 
@@ -56,7 +56,7 @@
     <style name="ActionBarWhite" parent="Widget.AppCompat.ActionBar">
         <item name="background">@null</item>
         <item name="titleTextStyle">@style/ActionBarTitleWhite</item>
-        <item name="logo">@drawable/icon_v_white</item>
+        <item name="logo">@drawable/icon_app</item>
         <item name="displayOptions">useLogo|showHome|showTitle</item>
     </style>
 
@@ -78,7 +78,7 @@
     <style name="ActionBarBlack" parent="Widget.AppCompat.ActionBar">
         <item name="background">@null</item>
         <item name="titleTextStyle">@style/ActionBarTitle</item>
-        <item name="logo">@drawable/icon_v_black</item>
+        <item name="logo">@drawable/icon_app</item>
         <item name="displayOptions">useLogo|showHome|showTitle</item>
 
     </style>
@@ -95,7 +95,7 @@
     <style name="ActionBarDefault" parent="Widget.AppCompat.ActionBar">
         <item name="background">@null</item>
         <item name="titleTextStyle">@style/ActionBarTitle</item>
-        <item name="logo">@drawable/icon_v_colored</item>
+        <item name="logo">@drawable/icon_app</item>
         <item name="displayOptions">useLogo|showHome|showTitle</item>
 
     </style>

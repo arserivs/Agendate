@@ -14,6 +14,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract.CommonDataKinds;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +60,7 @@ public class AgendaDoctorFragment extends Fragment {
     final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private static Calendar c ;
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private static TextView agendaFecha  ;
     private UserInfo userInfo ;
     private CustomListView listaAgendaDoctor ;
@@ -89,10 +91,30 @@ public class AgendaDoctorFragment extends Fragment {
         });
 
 
-        //agendaFecha.setText(dateFormat.format(c.getTime()));
-        agendaFecha.setText("20/07/2017");
-        cargarTurnos() ;
 
+        agendaFecha.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("riverosa","********cambio texto desde=" + s.toString());
+                cargarTurnos(s.toString()) ;
+            }
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+        });
+
+
+        agendaFecha.setText(dateFormat.format(c.getTime()));
+        //agendaFecha.setText("20-07-2017");
+
+        //cargarTurnos("20-07-2017") ;
 
 
 
@@ -100,7 +122,7 @@ public class AgendaDoctorFragment extends Fragment {
     }
 
 
-    private void cargarTurnos() {
+    private void cargarTurnos(final String fecha) {
 
         //if ("".equals(agendaFecha.getText().toString())) {
 
@@ -109,11 +131,13 @@ public class AgendaDoctorFragment extends Fragment {
 
         progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
         //.orderByChild("hora")
-        ("".equals(agendaFecha.getText().toString())
-                ? mDatabase.child("turno").child(userInfo.nroTelefono)
-                : mDatabase.child("turno").child(userInfo.nroTelefono).child(agendaFecha.getText().toString())
-        ).orderByChild("fecha").addValueEventListener(new ValueEventListener() {
+        //("".equals(fecha)
+        //        ? mDatabase.child("turno").child(userInfo.nroTelefono)
+        //        : mDatabase.child("turno").child(userInfo.nroTelefono).startAt(fecha)
+        //).addValueEventListener(new ValueEventListener() {
+        //startAt(fecha).endAt(fecha)
 
+        mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").endAt(fecha+"_23:59").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -170,7 +194,7 @@ public class AgendaDoctorFragment extends Fragment {
             final Turno item = getItem(position);
 
             if (item != null) {
-                nombre.setText(item.paciente);
+                nombre.setText(item.nombre);
                 telefono.setText(item.paciente);
                 hora.setText(item.hora);
                 fecha.setText(item.fecha);
@@ -212,7 +236,10 @@ public class AgendaDoctorFragment extends Fragment {
 
     public static void setearCalendario(String fecha) {
 
-        agendaFecha.setText(fecha);
+        Log.d("riverosa","elegi la fecha=" + fecha);
+        if (!fecha.equals(agendaFecha.getText().toString())) {
+            agendaFecha.setText(fecha);
+        }
 
 
 
@@ -237,8 +264,8 @@ public class AgendaDoctorFragment extends Fragment {
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
-            Log.d("riverosa","elegi la fecha=" + day + "/" + (month+1) + "/" + year);
-            setearCalendario((day<10?"0":"") + day + "/" + (month<9?"0":"") +  (month+1) + "/" + year) ;
+            //Log.d("riverosa","elegi la fecha=" + day + "-" + (month+1) + "-" + year);
+            setearCalendario((day<10?"0":"") + day + "-" + (month<9?"0":"") +  (month+1) + "-" + year) ;
         }
     }
 
