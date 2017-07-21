@@ -5,73 +5,135 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient_purple"
-    android:layout_weight="1"
     android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.2"
-        android:orientation="vertical"
-        >
         <TextView
             android:id="@+id/welcome_topTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buenas noches"
+            android:text="Dental Care"
             android:gravity="center"
             android:textSize="23sp"
             android:textColor="#fff"
             android:tag="bold"
             android:layout_marginTop="0dp"
+            android:layout_marginBottom="10dp"
             />
 
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#33ffffff"
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.25"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:id="@+id/welcome_layoutRegistrarPaciente"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:textSize="13sp"
+            android:textColor="#fff"
+            android:text="Odontología general"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:tag="regular"
+            />
 
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_pen_white"
-                />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#fff"
+            android:text="Prótesis"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginTop="10dp"
+            android:tag="regular"
+            />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#fff"
-                android:text="Registrar Paciente"
-                android:gravity="center"
-                android:padding="10dp"
-                android:layout_marginBottom="0dp"
-                android:tag="regular"
-                />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:text="Blanqueamiento"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:tag="regular"
+        />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:text="Ortodoncia"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:tag="regular"
+        />
 
-        </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:text="Endodoncia"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:tag="regular"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:text="Estética dental"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginTop="10dp"
+        android:tag="regular"
+        />
+
+    <!--
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="0.25"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/welcome_layoutRegistrarPaciente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="10dp"
+            android:scaleType="fitCenter"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_pen_white"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="13sp"
+            android:textColor="#fff"
+            android:text="Registrar Paciente"
+            android:gravity="center"
+            android:padding="10dp"
+            android:layout_marginBottom="0dp"
+            android:tag="regular"
+            />
+
 
     </LinearLayout>
+
+
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -129,7 +191,7 @@
 
         </LinearLayout>
     </LinearLayout>
-
+-->
 
 
 </LinearLayout>

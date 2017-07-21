@@ -18,6 +18,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,7 +26,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +39,7 @@ import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.User;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Doctor;
+import com.arsoft.agendate.models.Turno;
 import com.arsoft.agendate.models.Usuario;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -83,7 +88,9 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         final TextView topTextView = (TextView) findViewById(R.id.welcome_topTextView);
+        /*
         final TextView versionTextView = (TextView) findViewById(R.id.welcome_textViewVersion);
+
 
         String titleString = "";
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -106,11 +113,12 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         topTextView.setText(titleString);
+        */
 
 
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d("agendate", "----------------lenght-" + manager.getAccounts().length) ;
-        List<String> cuentas = new ArrayList<String>() ;
+        final ArrayAdapter<String> cuentas = new ArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice);
         if (manager.getAccounts().length>0) {
             for (Account list : manager.getAccounts()) {
                 Log.d("agendate", "-----------------" + list.toString()) ;
@@ -119,11 +127,26 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
 
+            if (cuentas.getCount()>1) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
+                builder.setTitle("Seleccionà una cuenta")
+                    .setAdapter(cuentas, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            obtenerCuenta(cuentas.getItem(which));
+
+                        }
+                    }
+                ).create().show();
+
+            } else {
+                obtenerCuenta(cuentas.getItem(0));
+            }
+
         } else {
 
         }
 
-        obtenerCuenta("archie.riveros@gmail.com") ;
+        //obtenerCuenta("archie.riveros@gmail.com") ;
 
 
 
@@ -152,38 +175,18 @@ public class WelcomeActivity extends AppCompatActivity {
                     Funciones.showErrorDialog(WelcomeActivity.this, error);
                 } else {
                     for (DataSnapshot postSnapshot: datos.getChildren()) {
-                        Usuario dbusuario = postSnapshot.getValue(Usuario.class);
+                        final Usuario dbusuario = postSnapshot.getValue(Usuario.class);
                         if (dbusuario.email.equals(usuario)) {
                             login(dbusuario.telefono);
+                            return;
                         }
                     }
+
+                    Funciones.showErrorDialog(WelcomeActivity.this, "La cuenta que seleccionaste no esta registrada en nuestro sistema");
                 }
             }
 
         });
-
-        /*
-        mDatabase.child("usuario").addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Usuario dbusuario = postSnapshot.getValue(Usuario.class);
-                    if (dbusuario.email.equals(usuario)) {
-                        login(dbusuario.telefono) ;
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("agendate","The read failed: " + databaseError.getCode());
-            }
-        });
-        */
-
 
 
     }
@@ -192,11 +195,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
     private void login(final String telefono) {
-
-
-
-        //final String key = Funciones.limpiarTelefono(telefono) ;
-        //Log.d("agendate","-------"+key + "--" + telefono);
 
         final List<String> p = new ArrayList<>() ;
         p.add("doctor") ;
@@ -231,38 +229,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         });
 
-        /*
-        mDatabase.child("doctor").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Doctor post = dataSnapshot.getValue(Doctor.class);
-                if (post != null) {
-                    Log.d("agendate","nombre----" +  post.nombre);
-                    //Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
-
-                    final UserInfo userInfo = new UserInfo() ;
-                    userInfo.nroTelefono = key;
-                    userInfo.nombre = post.nombre ;
-
-                    Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                    intent.putExtra("userInfo", userInfo) ;
-                    startActivity(intent);
-
-
-                } else {
-                    Funciones.showErrorDialog(WelcomeActivity.this, "No esta registrado como Doctor en la app");
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("agendate","The read failed: " + databaseError.getCode());
-            }
-        });
-        */
-
 
     }
 
@@ -282,5 +248,9 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
+
 
 }

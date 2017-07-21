@@ -7,4 +7,5 @@
     android:gravity="left"
     android:textColor="#a1a1a1"
     android:padding="5dip"
+    android:id="@+id/simple_spinner_item_texto"
     />

@@ -128,40 +128,6 @@ public class DashboardFragment extends Fragment {
 
             });
 
-            /*
-            mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").limitToFirst(1).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Turno t = dataSnapshot.getValue(Turno.class);
-                    subtitle.setText(t.nombre + ", el " + t.fecha + " a las " + t.hora);
-                    view.setVisibility(View.VISIBLE);
-
-                    //cargarProximoTurno(dataSnapshot.getValue(Turno.class), subtitle, view);
-
-                }
-
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-            */
-
 
             DashboardItemBlue view2 = (DashboardItemBlue) inflater.inflate(R.layout.dashboard_item_blue, linearLayout, false);
             TextView title2 = (TextView) view2.findViewById(R.id.dashboarditemblue_title);
