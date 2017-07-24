@@ -128,8 +128,8 @@ public class DrawerActivity extends AppCompatActivity {
 
     private DrawerMenuItem[] menuLevel2 = {
             new DrawerMenuItem(R.drawable.menu_icon_logout, "Inicio", DashboardFragment.class, true, null),
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Agenda Personal", RegistrarPacienteFragment.class, true, null),
-            new DrawerMenuItem(R.drawable.menu_icon_logout, "Registrar Paciente", AgendaDoctorFragment.class, true, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Agenda Personal", AgendaDoctorFragment.class, true, null),
+            new DrawerMenuItem(R.drawable.menu_icon_logout, "Registrar Paciente", RegistrarPacienteFragment.class, true, null),
             new DrawerMenuItem(R.drawable.menu_icon_logout, "Servicios", 3),
     };
 
@@ -137,11 +137,12 @@ public class DrawerActivity extends AppCompatActivity {
 
 
 
-
+/*
     private DrawerMenuItem[] menuLevel3 = {
             new DrawerMenuItem(R.drawable.icon_arrow_white_back, "Servicios", 2),
             new DrawerMenuItem(R.drawable.menu_icon_logout, "Pantalla 2", RegistrarPacienteFragment.class, true, null),
     };
+*/
 
     private ActionBarDrawerToggle drawerToggle;
     private BroadcastReceiver userBroadcastReceiver;
@@ -158,7 +159,7 @@ public class DrawerActivity extends AppCompatActivity {
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
     }
-
+/*
     private DatabaseReference mDatabase;
     public DatabaseReference getMDatabase() {
         return mDatabase;
@@ -167,7 +168,7 @@ public class DrawerActivity extends AppCompatActivity {
     public void setMDatabase(DatabaseReference mDatabase) {
         this.mDatabase = mDatabase;
     }
-
+*/
 
     //Limpia cache por cuestiones de seguridad
     public static boolean deleteDir(File dir) {
@@ -208,7 +209,7 @@ public class DrawerActivity extends AppCompatActivity {
             this.userInfo = (UserInfo) extras.get("userInfo") ;
         }
 
-        this.setMDatabase(FirebaseDatabase.getInstance().getReference());
+        //this.setMDatabase(FirebaseDatabase.getInstance().getReference());
 
 
         final ListView menuList = (ListView) findViewById(R.id.drawermain_listView);
@@ -229,9 +230,9 @@ public class DrawerActivity extends AppCompatActivity {
                         case 2:
                             menuItems = menuLevel2;
                             break;
-                        case 3:
-                            menuItems = menuLevel3;
-                            break;
+                        //case 3:
+                            //menuItems = menuLevel3;
+                            //break;
                         default:
                             menuItems = menuLevel1;
                             break;
@@ -395,9 +396,9 @@ public class DrawerActivity extends AppCompatActivity {
                 case 2:
                     lItems = menuLevel2;
                     break;
-                case 3:
-                    lItems = menuLevel3;
-                    break;
+                //case 3:
+                    //lItems = menuLevel3;
+                    //break;
                 default:
                     lItems = menuLevel1;
                     break;
@@ -428,9 +429,9 @@ public class DrawerActivity extends AppCompatActivity {
                             case 2:
                                 lItems = menuLevel2;
                                 break;
-                            case 3:
-                                lItems = menuLevel3;
-                                break;
+                            //case 3:
+                                //lItems = menuLevel3;
+                                //break;
                             default:
                                 lItems = menuLevel1;
                                 break;

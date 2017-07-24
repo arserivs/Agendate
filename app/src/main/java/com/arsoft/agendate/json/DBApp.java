@@ -51,6 +51,7 @@ public class DBApp  {
 
     public static void request(final int tipo,
                                final List<String> par,
+                               final Object obj,
                                final Activity activity,
                                final DBAppListener listener) {
 
@@ -117,6 +118,17 @@ public class DBApp  {
 
 
                                 case 3:
+                                    mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).endAt(par.get(4)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            listener.respuesta(dataSnapshot, null);
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The read failed: " + databaseError.getCode());
+                                        }
+                                    });
 
                                     break ;
 
@@ -152,6 +164,9 @@ public class DBApp  {
 
                                     break;
 
+
+                                case 10:
+                                    mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
                                 default:
                                     listener.respuesta(null, "Error en el tipo de consulta");
                             }

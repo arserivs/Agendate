@@ -146,9 +146,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         }
 
-        //obtenerCuenta("archie.riveros@gmail.com") ;
-
-
 
         if(!didVerifyVersion) {
             User.verificarVersion(this);
@@ -166,9 +163,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
         final List<String> p = new ArrayList<>() ;
         p.add("usuario") ;
-        //p.add(usuario) ;
 
-        DBApp.request(1, p, this, new DBApp.DBAppListener(){
+        DBApp.request(1, p, null, this, new DBApp.DBAppListener(){
             @Override
             public void respuesta(DataSnapshot datos, String error) {
                 if (error != null) {
@@ -200,7 +196,7 @@ public class WelcomeActivity extends AppCompatActivity {
         p.add("doctor") ;
         p.add(telefono) ;
 
-        DBApp.request(2, p, this, new DBApp.DBAppListener(){
+        DBApp.request(2, p, null, this, new DBApp.DBAppListener(){
             @Override
             public void respuesta(DataSnapshot datos, String error) {
                 if (error != null) {

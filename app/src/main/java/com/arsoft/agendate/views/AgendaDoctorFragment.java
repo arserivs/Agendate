@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -35,6 +36,7 @@ import com.arsoft.agendate.CustomListView;
 import com.arsoft.agendate.DrawerActivity;
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.UserInfo;
 
 import com.arsoft.agendate.models.Turno;
@@ -57,7 +59,7 @@ import java.util.List;
 
 public class AgendaDoctorFragment extends Fragment {
 
-    final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    //final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -130,39 +132,41 @@ public class AgendaDoctorFragment extends Fragment {
 
 
         progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
-        //.orderByChild("hora")
-        //("".equals(fecha)
-        //        ? mDatabase.child("turno").child(userInfo.nroTelefono)
-        //        : mDatabase.child("turno").child(userInfo.nroTelefono).startAt(fecha)
-        //).addValueEventListener(new ValueEventListener() {
-        //startAt(fecha).endAt(fecha)
 
-        mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").endAt(fecha+"_23:59").addValueEventListener(new ValueEventListener() {
 
+        //mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").endAt(fecha+"_23:59").addValueEventListener(new ValueEventListener() {
+
+        final List<String> p = new ArrayList<>() ;
+        p.add("turno") ;
+        p.add(userInfo.nroTelefono) ;
+        p.add("fecha_hora") ;
+        p.add(fecha+"_00:00") ;
+        p.add(fecha+"_23:59") ;
+
+
+        DBApp.request(3, p, null, getActivity(), new DBApp.DBAppListener(){
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void respuesta(DataSnapshot datos, String error) {
+                if (error != null) {
+                    Funciones.showErrorDialog(getActivity(), error);
+                } else {
 
-                progress.dismiss();
+                    progress.dismiss();
 
-                List<Turno> listaTurnos = new ArrayList<Turno>() ;
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    listaTurnos.add(postSnapshot.getValue(Turno.class));
+                    List<Turno> listaTurnos = new ArrayList<Turno>();
+                    for (DataSnapshot postSnapshot : datos.getChildren()) {
+                        listaTurnos.add(postSnapshot.getValue(Turno.class));
+
+                    }
+
+                    AgendaDoctorAdapter adapter = new AgendaDoctorAdapter(getActivity(), listaTurnos);
+                    listaAgendaDoctor.setAdapter(adapter);
+                    listaAgendaDoctor.setVisibility(View.VISIBLE);
+
 
                 }
-
-                AgendaDoctorAdapter adapter = new AgendaDoctorAdapter(getActivity(), listaTurnos);
-                listaAgendaDoctor.setAdapter(adapter);
-                listaAgendaDoctor.setVisibility(View.VISIBLE);
-
-
-
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                progress.dismiss();
-                Log.d("agendate","The read failed: " + databaseError.getCode());
-            }
         });
 
     }
@@ -202,7 +206,7 @@ public class AgendaDoctorFragment extends Fragment {
                 returnView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        //cargarDesdeHistorico(item);
+                        cargarDesdeHistorico(item);
 
                     }
                 }) ;
@@ -214,6 +218,21 @@ public class AgendaDoctorFragment extends Fragment {
             return returnView;
 
         }
+    }
+
+    private void cargarDesdeHistorico(Turno t) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("turno", t);
+
+        AgendaTurnoFragment fragment = new AgendaTurnoFragment();
+        fragment.setArguments(bundle);
+
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.loggedinbase_frameLayout, fragment);
+        ft.addToBackStack(null);
+        ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+        ft.commit();
     }
 
 

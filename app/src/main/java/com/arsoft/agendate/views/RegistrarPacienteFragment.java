@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.models.Paciente;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -37,8 +38,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -56,7 +59,7 @@ public class RegistrarPacienteFragment extends Fragment {
     private EditText pctNick ;
     private static TextView pctFechaNacimiento  ;
     private static TextView pctFechaIngreso  ;
-    private DatabaseReference mDatabase ;
+
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static String CAMPO_FECHA ;
@@ -75,7 +78,7 @@ public class RegistrarPacienteFragment extends Fragment {
         pctNick = (EditText) returnView.findViewById(R.id.registrar_paciente_nick) ;
         pctFechaIngreso = (TextView) returnView.findViewById(R.id.registrar_paciente_fechaingreso) ;
         pctFechaNacimiento = (TextView) returnView.findViewById(R.id.registrar_paciente_fechanacimiento) ;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         // Use the current date as the default date in the picker
         c = Calendar.getInstance();
@@ -124,30 +127,41 @@ public class RegistrarPacienteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Write a message to the database
-                final String key = pctTelefono.getText().toString() ;
+                //final String key = pctTelefono.getText().toString() ;
                 //Log.d("---------------","/paciente/"+key) ;
-                mDatabase.child("paciente").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                //mDatabase.child("paciente").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                final List<String> p = new ArrayList<>() ;
+                p.add("paciente") ;
+                p.add(pctTelefono.getText().toString()) ;
 
+                DBApp.request(2, p, null, getActivity(), new DBApp.DBAppListener(){
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Paciente post = dataSnapshot.getValue(Paciente.class);
-                        if (post != null) {
-                            Log.d("agendate","nombre----" +  post.nombre);
-                            Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
+                    public void respuesta(DataSnapshot datos, String error) {
+                        if (error != null) {
+                            Funciones.showErrorDialog(getActivity(), error);
                         } else {
-                            Funciones.showDialog(getActivity(), "Debe insertar");
-                            Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
-                            mDatabase.child("paciente").child(key).setValue(newPaciente);
+                            Paciente post = datos.getValue(Paciente.class);
+                            if (post != null) {
+                                Log.d("agendate","nombre----" +  post.nombre);
+                                Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
+                            } else {
+                                Funciones.showDialog(getActivity(), "Debe insertar");
+                                Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
+                                //mDatabase.child("paciente").child(key).setValue(newPaciente);
+                                DBApp.request(2, p, newPaciente, getActivity(), new DBApp.DBAppListener(){
+                                    @Override
+                                    public void respuesta(DataSnapshot datos, String error) {
+                                        if (error != null) {
+                                            Funciones.showErrorDialog(getActivity(), error);
+                                        } else {
+
+                                        }
+                                    }
+                                }) ;
+                            }
                         }
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.d("agendate","The read failed: " + databaseError.getCode());
                     }
                 });
-
 
             }
         });

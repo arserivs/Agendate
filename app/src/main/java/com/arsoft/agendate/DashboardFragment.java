@@ -20,6 +20,7 @@ import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Paciente;
 import com.arsoft.agendate.models.Turno;
 import com.arsoft.agendate.views.AgendaDoctorFragment;
+import com.arsoft.agendate.views.AgendaTurnoFragment;
 import com.arsoft.agendate.views.DashboardItemBlue;
 import com.arsoft.agendate.views.DashboardItemSpline;
 import com.arsoft.agendate.views.RegistrarPacienteFragment;
@@ -44,6 +45,7 @@ public class DashboardFragment extends Fragment {
     //final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
     //private DatabaseReference mDatabase ;
     private UserInfo userInfo ;
+    private Turno proximoTurno ;
 
 
 
@@ -84,12 +86,19 @@ public class DashboardFragment extends Fragment {
 
             //Funciones.showDialog(getActivity(), "dashboard telefono " + ((DrawerActivity)getActivity()).getUserInfo().nroTelefono);
 
+
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     //StaticHelpers.showDialog(getActivity(), "view.setOnClickListener");
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("turno", proximoTurno);
+
+                    AgendaTurnoFragment fragment = new AgendaTurnoFragment();
+                    fragment.setArguments(bundle);
+
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    AgendaDoctorFragment fragment = new AgendaDoctorFragment();
                     ft.replace(R.id.loggedinbase_frameLayout, fragment);
                     ft.addToBackStack(null);
                     ft.commit();
@@ -114,14 +123,14 @@ public class DashboardFragment extends Fragment {
             p.add(fecha+"_00:00") ;
             p.add("1") ;
 
-            DBApp.request(4, p, getActivity(), new DBApp.DBAppListener(){
+            DBApp.request(4, p, null, getActivity(), new DBApp.DBAppListener(){
                 @Override
                 public void respuesta(DataSnapshot datos, String error) {
                     if (error != null) {
                         Funciones.showErrorDialog(getActivity(), error);
                     } else {
-                        Turno t = datos.getValue(Turno.class);
-                        subtitle.setText(t.nombre + ", el " + t.fecha + " a las " + t.hora);
+                        proximoTurno = datos.getValue(Turno.class);
+                        subtitle.setText(proximoTurno.nombre + ", el " + proximoTurno.fecha + " a las " + proximoTurno.hora);
                         view.setVisibility(View.VISIBLE);
                     }
                 }
