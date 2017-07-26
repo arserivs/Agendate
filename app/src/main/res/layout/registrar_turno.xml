@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Completa los datos del paciente"
+            android:text="Reservá un turno"
             android:textColor="#323232"
             android:textSize="20sp"
             android:tag="bold"
@@ -44,7 +44,7 @@
         android:weightSum="1"
         >
         <EditText
-            android:id="@+id/registrar_paciente_telefono"
+            android:id="@+id/registrar_turno_telefono"
             android:layout_weight="0.7"
             android:layout_height="50dp"
             android:layout_width="0dip"
@@ -55,7 +55,7 @@
             />
         <ImageView
             android:layout_marginLeft="15dp"
-            android:id="@+id/registrar_paciente_contactos"
+            android:id="@+id/registrar_turno_contactos"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/icon_people"
@@ -75,21 +75,22 @@
         android:layout_marginTop="20dp"
         />
 
-    <EditText
+    <TextView
         android:id="@+id/registrar_paciente_nombre"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="16sp"
         android:textColor="#323232"
-        android:inputType="textNoSuggestions"
+        android:text=""
         android:tag=""
 
         />
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fecha de nacimiento"
+        android:text="Fecha"
         android:textColor="#959595"
         android:textSize="13sp"
         android:tag="regular"
@@ -99,87 +100,7 @@
 
 
     <LinearLayout
-        android:id="@+id/registrar_paciente_lytfechanacimiento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/icon_calendar"
-            android:layout_gravity="top"
-            android:layout_marginTop="0dp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/registrar_paciente_fechanacimiento" />
-    </LinearLayout>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Dirección"
-        android:textColor="#959595"
-        android:textSize="13sp"
-        android:tag="regular"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        />
-
-    <EditText
-        android:id="@+id/registrar_paciente_direccion"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="16sp"
-        android:textColor="#323232"
-        android:inputType="textNoSuggestions"
-        android:tag=""
-
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nickname"
-        android:textColor="#959595"
-        android:textSize="13sp"
-        android:tag="regular"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        />
-
-    <EditText
-        android:id="@+id/registrar_paciente_nick"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:textSize="16sp"
-        android:textColor="#323232"
-        android:inputType="textNoSuggestions"
-        android:tag=""
-
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha de alta"
-        android:textColor="#959595"
-        android:textSize="13sp"
-        android:tag="regular"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        />
-
-
-    <LinearLayout
-        android:id="@+id/registrar_paciente_lytfechaingreso"
+        android:id="@+id/registrar_turno_lytfecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -199,8 +120,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
-            android:id="@+id/registrar_paciente_fechaingreso" />
+            android:id="@+id/registrar_turno_fecha" />
     </LinearLayout>
+
 
 
     <LinearLayout
@@ -210,7 +132,7 @@
         >
 
         <Button
-            android:id="@+id/registrar_paciente_siguiente"
+            android:id="@+id/registrar_turno_siguiente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -225,7 +147,7 @@
             android:visibility="visible"
             />
         <TextView
-            android:id="@+id/registrar_paciente_cancelar"
+            android:id="@+id/registrar_turno_cancelar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="Cancelar"

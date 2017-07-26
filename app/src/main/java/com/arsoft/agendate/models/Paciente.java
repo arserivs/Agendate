@@ -1,4 +1,7 @@
 package com.arsoft.agendate.models ;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -12,15 +15,13 @@ import java.util.Map;
  * Created by Usuario on 01/07/2017.
  */
 
-public class Paciente {
+public class Paciente implements Parcelable {
 
     public String nombre;
     public String fechanacimiento;
     public String fechaingreso;
     public String direccion;
     public String nick;
-    public int starCount = 0;
-    public Map<String, Boolean> stars = new HashMap<>();
 
 
     public Paciente() {
@@ -44,11 +45,47 @@ public class Paciente {
         result.put("fechaingreso", fechaingreso);
         result.put("direccion", direccion);
         result.put("nick", nick);
-        result.put("starCount", starCount);
-        result.put("stars", stars);
 
 
         return result;
     }
     // [END post_to_map]
+
+
+
+    protected Paciente(Parcel in) {
+        nombre = in.readString();
+        fechanacimiento = in.readString();
+        fechaingreso = in.readString();
+        direccion = in.readString();
+        nick = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(nombre);
+        dest.writeString(fechanacimiento);
+        dest.writeString(fechaingreso);
+        dest.writeString(direccion);
+        dest.writeString(nick);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Paciente> CREATOR = new Creator<Paciente>() {
+
+        @Override
+        public Paciente createFromParcel(Parcel in) {
+            return new Paciente(in);
+        }
+
+        @Override
+        public Paciente[] newArray(int size) {
+            return new Paciente[size];
+        }
+
+    };
 }

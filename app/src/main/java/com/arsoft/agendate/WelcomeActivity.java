@@ -193,10 +193,10 @@ public class WelcomeActivity extends AppCompatActivity {
     private void login(final String telefono) {
 
         final List<String> p = new ArrayList<>() ;
-        p.add("doctor") ;
-        p.add(telefono) ;
+        p.add("doctor/"+telefono) ;
+        //p.add(telefono) ;
 
-        DBApp.request(2, p, null, this, new DBApp.DBAppListener(){
+        DBApp.request(1, p, null, this, new DBApp.DBAppListener(){
             @Override
             public void respuesta(DataSnapshot datos, String error) {
                 if (error != null) {

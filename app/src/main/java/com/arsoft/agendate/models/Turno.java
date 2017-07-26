@@ -22,8 +22,9 @@ public class Turno implements Parcelable {
     public String fecha ;
     public String hora ;
     public String nombre ;
-    //public int starCount = 0;
-    //public Map<String, Boolean> stars = new HashMap<>();
+    public String fecha_hora ;
+    //public String key ;
+
 
 
     public Turno() {
@@ -36,6 +37,7 @@ public class Turno implements Parcelable {
         this.fecha = fecha;
         this.hora = hora;
         this.nombre = nombre;
+        this.fecha_hora = fecha + "_" + hora ;
     }
 
     // [START post_to_map]
@@ -47,8 +49,9 @@ public class Turno implements Parcelable {
         result.put("fecha", fecha);
         result.put("hora", hora);
         result.put("nombre", nombre);
-        //result.put("starCount", starCount);
-        //result.put("stars", stars);
+        //result.put("key", key);
+        result.put("fecha_hora", fecha_hora);
+
 
 
         return result;
@@ -62,6 +65,8 @@ public class Turno implements Parcelable {
         fecha = in.readString();
         hora = in.readString();
         nombre = in.readString();
+        //key = in.readString();
+        fecha_hora = in.readString();
     }
 
     @Override
@@ -71,6 +76,8 @@ public class Turno implements Parcelable {
         dest.writeString(fecha);
         dest.writeString(hora);
         dest.writeString(nombre);
+        //dest.writeString(key);
+        dest.writeString(fecha_hora);
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import com.arsoft.agendate.CustomListView;
 import com.arsoft.agendate.DrawerActivity;
 import com.arsoft.agendate.R;
+import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Turno;
 import com.google.firebase.database.DataSnapshot;
@@ -71,6 +74,31 @@ public class AgendaTurnoFragment extends Fragment {
 
             final TextView hora = (TextView) returnView.findViewById(R.id.agenda_turno_hora);
             hora.setText(turnoSel.hora);
+
+            final Button cancelar = (Button) returnView.findViewById(R.id.agenda_turno_cancelar) ;
+            cancelar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final List<String> p = new ArrayList<>() ;
+                    p.add("turno/" + ((DrawerActivity)getActivity()).getUserInfo().nroTelefono) ;
+                    p.add("fecha_hora") ;
+                    p.add(turnoSel.fecha_hora) ;
+                    p.add("confirma") ;
+                    p.add("N");
+
+
+                    DBApp.request(11, p, null, getActivity(), new DBApp.DBAppListener(){
+                        @Override
+                        public void respuesta(DataSnapshot datos, String error) {
+                            if (error != null) {
+                                Funciones.showErrorDialog(getActivity(), error);
+                            } else {
+                                Funciones.showDialog(getActivity(), "Se canceló el tuno");
+                            }
+                        }
+                    }) ;
+                }
+            });
 
         }
 

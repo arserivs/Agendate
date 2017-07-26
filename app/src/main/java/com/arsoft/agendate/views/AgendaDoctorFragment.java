@@ -137,8 +137,8 @@ public class AgendaDoctorFragment extends Fragment {
         //mDatabase.child("turno").child(userInfo.nroTelefono).orderByChild("fecha_hora").startAt(fecha+"_00:00").endAt(fecha+"_23:59").addValueEventListener(new ValueEventListener() {
 
         final List<String> p = new ArrayList<>() ;
-        p.add("turno") ;
-        p.add(userInfo.nroTelefono) ;
+        p.add("turno/"+userInfo.nroTelefono) ;
+        //p.add(userInfo.nroTelefono) ;
         p.add("fecha_hora") ;
         p.add(fecha+"_00:00") ;
         p.add(fecha+"_23:59") ;
@@ -155,6 +155,9 @@ public class AgendaDoctorFragment extends Fragment {
 
                     List<Turno> listaTurnos = new ArrayList<Turno>();
                     for (DataSnapshot postSnapshot : datos.getChildren()) {
+                        //Turno t = postSnapshot.getValue(Turno.class) ;
+                        //t.key = postSnapshot.getKey() ;
+
                         listaTurnos.add(postSnapshot.getValue(Turno.class));
 
                     }

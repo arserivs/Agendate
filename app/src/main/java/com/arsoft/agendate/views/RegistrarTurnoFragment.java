@@ -6,10 +6,12 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
-import android.app.FragmentManager;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract.CommonDataKinds;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +20,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-
-import android.content.ContentResolver;
-import android.provider.ContactsContract.CommonDataKinds;
-import android.database.Cursor;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,26 +28,19 @@ import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.models.Paciente;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 /**
  * Created by Usuario on 25/06/2017.
  */
 
-public class RegistrarPacienteFragment extends Fragment {
+public class RegistrarTurnoFragment extends Fragment {
     private static final int PICK_CONTACT=1;
 
 
@@ -70,42 +61,26 @@ public class RegistrarPacienteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View returnView = inflater.inflate(R.layout.registrar_paciente, container, false);
+        View returnView = inflater.inflate(R.layout.registrar_turno, container, false);
 
-        pctNombre = (EditText) returnView.findViewById(R.id.registrar_paciente_nombre) ;
-        pctTelefono = (EditText) returnView.findViewById(R.id.registrar_paciente_telefono) ;
-        pctDireccion = (EditText) returnView.findViewById(R.id.registrar_paciente_direccion) ;
-        pctNick = (EditText) returnView.findViewById(R.id.registrar_paciente_nick) ;
-        pctFechaIngreso = (TextView) returnView.findViewById(R.id.registrar_paciente_fechaingreso) ;
-        pctFechaNacimiento = (TextView) returnView.findViewById(R.id.registrar_paciente_fechanacimiento) ;
+        pctTelefono = (EditText) returnView.findViewById(R.id.registrar_turno_telefono) ;
 
 
         // Use the current date as the default date in the picker
         c = Calendar.getInstance();
 
-        final LinearLayout lytFechaNacimiento = (LinearLayout) returnView.findViewById(R.id.registrar_paciente_lytfechanacimiento) ;
-        lytFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout lytFecha = (LinearLayout) returnView.findViewById(R.id.registrar_turno_lytfecha) ;
+        lytFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CAMPO_FECHA="NACIMIENTO" ;
                 mostrarCalendario(view) ;
             }
         });
 
 
-        pctFechaIngreso.setText(dateFormat.format(c.getTime()));
-
-        final LinearLayout lytFechaIngreso = (LinearLayout) returnView.findViewById(R.id.registrar_paciente_lytfechaingreso) ;
-        lytFechaIngreso.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CAMPO_FECHA="INGRESO" ;
-                mostrarCalendario(view) ;
-            }
-        });
 
 
-        final ImageView contactos = (ImageView) returnView.findViewById(R.id.registrar_paciente_contactos);
+        final ImageView contactos = (ImageView) returnView.findViewById(R.id.registrar_turno_contactos);
         contactos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +96,7 @@ public class RegistrarPacienteFragment extends Fragment {
         //TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
         //Log.d("aa","numero : " + tm.getLine1Number());
 
-        final Button btnEnviar = (Button) returnView.findViewById(R.id.registrar_paciente_siguiente) ;
+        final Button btnEnviar = (Button) returnView.findViewById(R.id.registrar_turno_siguiente) ;
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,7 +141,7 @@ public class RegistrarPacienteFragment extends Fragment {
             }
         });
 
-        final TextView btnCancelar = (TextView) returnView.findViewById(R.id.registrar_paciente_cancelar);
+        final TextView btnCancelar = (TextView) returnView.findViewById(R.id.registrar_turno_cancelar);
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

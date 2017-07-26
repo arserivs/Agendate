@@ -35,7 +35,8 @@ import java.util.Map;
 
 
 public class DBApp  {
-    final static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    //final static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    final static FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
 
 
 
@@ -80,7 +81,8 @@ public class DBApp  {
                             switch (tipo) {
 
                                 case 1:
-                                    mDatabase.child(par.get(0)).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    //SELECT * FROM DB WHERE CAMPO=PAR.GET(0)
+                                    mDatabase.getReference(par.get(0)).addListenerForSingleValueEvent(new ValueEventListener() {
 
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -98,6 +100,7 @@ public class DBApp  {
 
                                     break;
 
+                                /*
                                 case 2:
                                     mDatabase.child(par.get(0)).child(par.get(1)).addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -115,10 +118,13 @@ public class DBApp  {
                                     });
 
                                     break ;
-
+                                */
 
                                 case 3:
-                                    mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).endAt(par.get(4)).addValueEventListener(new ValueEventListener() {
+                                    //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) AND PAR.GET(1) BETWEEN PAR.GET(2) AND PAR.GET(3) ORDER BY PAR.GET(1)
+
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).endAt(par.get(4)).addValueEventListener(new ValueEventListener() {
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).endAt(par.get(3)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             listener.respuesta(dataSnapshot, null);
@@ -134,7 +140,10 @@ public class DBApp  {
 
 
                                 case 4:
-                                    mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).limitToFirst(Integer.parseInt(par.get(4))).addChildEventListener(new ChildEventListener() {
+                                    //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) AND PAR.GET(1) >= PAR.GET(2) ORDER BY PAR.GET(1)
+
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).limitToFirst(Integer.parseInt(par.get(4))).addChildEventListener(new ChildEventListener() {
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).limitToFirst(Integer.parseInt(par.get(3))).addChildEventListener(new ChildEventListener() {
                                         @Override
                                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                                             listener.respuesta(dataSnapshot, null);
@@ -166,7 +175,56 @@ public class DBApp  {
 
 
                                 case 10:
-                                    mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+
+                                    //INSERTA O ACTUALIZA UN OBJETO A PARTIR DE LA REFERENCIA
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+                                    mDatabase.getReference(par.get(0)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            dataSnapshot.getRef().setValue(obj) ;
+
+
+                                            listener.respuesta(dataSnapshot, null);
+
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
+                                        }
+                                    });
+
+
+
+                                    break ;
+
+                                case 11:
+
+                                    //ACTUALIZA UN VALOR A PARTIR DE LA REFERENCIA
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+                                    //mDatabase.getReference(par.get(0)).setValue(obj) ;
+                                    //mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).getRef().child(par.get(3)).setValue(par.get(4)) ;
+
+
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                                                ds.getRef().child(par.get(3)).setValue(par.get(4));
+                                            }
+                                            listener.respuesta(dataSnapshot, null);
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
+                                        }
+                                    });
+
+
+                                    break ;
+
                                 default:
                                     listener.respuesta(null, "Error en el tipo de consulta");
                             }
