@@ -62,7 +62,7 @@ public class AgendaDoctorFragment extends Fragment {
     //final DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     private static Calendar c ;
-    private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     private static TextView agendaFecha  ;
     private UserInfo userInfo ;
     private CustomListView listaAgendaDoctor ;
@@ -124,12 +124,13 @@ public class AgendaDoctorFragment extends Fragment {
     }
 
 
-    private void cargarTurnos(final String fecha) {
+    private void cargarTurnos(final String fechaOri) {
 
         //if ("".equals(agendaFecha.getText().toString())) {
 
         //}
 
+        String fecha=Funciones.cambiarFormatoFecha(fechaOri,"dd/MM/yyyy","yyyyMMdd") ;
 
         progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
 
@@ -140,8 +141,8 @@ public class AgendaDoctorFragment extends Fragment {
         p.add("turno/"+userInfo.nroTelefono) ;
         //p.add(userInfo.nroTelefono) ;
         p.add("fecha_hora") ;
-        p.add(fecha+"_00:00") ;
-        p.add(fecha+"_23:59") ;
+        p.add(fecha+"0000") ;
+        p.add(fecha+"2359") ;
 
 
         DBApp.request(3, p, null, getActivity(), new DBApp.DBAppListener(){
@@ -287,7 +288,7 @@ public class AgendaDoctorFragment extends Fragment {
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
             //Log.d("riverosa","elegi la fecha=" + day + "-" + (month+1) + "-" + year);
-            setearCalendario((day<10?"0":"") + day + "-" + (month<9?"0":"") +  (month+1) + "-" + year) ;
+            setearCalendario((day<10?"0":"") + day + "/" + (month<9?"0":"") +  (month+1) + "/" + year) ;
         }
     }
 

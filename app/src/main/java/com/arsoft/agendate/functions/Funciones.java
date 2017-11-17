@@ -15,7 +15,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -25,6 +29,26 @@ import javax.net.ssl.HttpsURLConnection;
  */
 
 public class Funciones {
+
+
+    public static String cambiarFormatoFecha(String fecha, String fOrigen, String fDestino) {
+        Calendar c = Calendar.getInstance();;
+        DateFormat dateFormat = new SimpleDateFormat(fOrigen);
+
+        try {
+            c.setTime(dateFormat.parse(fecha));
+
+            dateFormat = new SimpleDateFormat(fDestino);
+
+            return dateFormat.format(c.getTime()) ;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "" ;
+
+    }
 
 
     //Esto son funciones helpers para las vistas que usan la mayor��a de los fragments

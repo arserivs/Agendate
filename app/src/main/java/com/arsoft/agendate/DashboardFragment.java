@@ -110,17 +110,18 @@ public class DashboardFragment extends Fragment {
 
 
 
-            final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            //final DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            final DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
             final Calendar c = Calendar.getInstance();
             final String fecha=dateFormat.format(c.getTime()) ;
-            Log.d("agendate", "fecha=" + fecha+"_00:00") ;
+            Log.d("agendate", "fecha=" + fecha) ;
 
 
             final List<String> p = new ArrayList<>() ;
             p.add("turno/"+userInfo.nroTelefono) ;
             //p.add(userInfo.nroTelefono) ;
             p.add("fecha_hora") ;
-            p.add(fecha+"_00:00") ;
+            p.add(fecha) ;
             p.add("1") ;
 
             DBApp.request(4, p, null, getActivity(), new DBApp.DBAppListener(){
