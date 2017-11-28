@@ -88,33 +88,6 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         final TextView topTextView = (TextView) findViewById(R.id.welcome_topTextView);
-        /*
-        final TextView versionTextView = (TextView) findViewById(R.id.welcome_textViewVersion);
-
-
-        String titleString = "";
-        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-        if(hour >= 6 && hour < 12) {
-            titleString = "Buenos días";
-        } else if(hour >= 12 && hour < 18) {
-            titleString = "Buenas tardes";
-        } else {
-            titleString = "Buenas noches";
-        }
-
-        PackageInfo pInfo = null;
-        try {
-            pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-            int verCode = pInfo.versionCode;
-            versionTextView.setText("Build " + verCode + "." + version);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        topTextView.setText(titleString);
-        */
-
 
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d("agendate", "----------------lenght-" + manager.getAccounts().length) ;

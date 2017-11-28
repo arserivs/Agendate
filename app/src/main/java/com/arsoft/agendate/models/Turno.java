@@ -2,6 +2,7 @@ package com.arsoft.agendate.models;
 import android.os.Parcelable;
 import android.os.Parcel;
 
+import com.arsoft.agendate.functions.Funciones;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -37,7 +38,8 @@ public class Turno implements Parcelable {
         this.fecha = fecha;
         this.hora = hora;
         this.nombre = nombre;
-        this.fecha_hora = fecha + "_" + hora ;
+
+        this.fecha_hora = Funciones.cambiarFormatoFecha(fecha + " " + hora, "dd/MM/yyyy HH:mm", "yyyyMMddHHmm") ;
     }
 
     // [START post_to_map]

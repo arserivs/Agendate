@@ -82,6 +82,7 @@ public class DBApp  {
 
                                 case 1:
                                     //SELECT * FROM DB WHERE CAMPO=PAR.GET(0)
+                                    Log.d("--case 1--","getReference("+par.get(0)+")") ;
                                     mDatabase.getReference(par.get(0)).addListenerForSingleValueEvent(new ValueEventListener() {
 
                                         @Override
@@ -124,6 +125,7 @@ public class DBApp  {
                                     //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) AND PAR.GET(1) BETWEEN PAR.GET(2) AND PAR.GET(3) ORDER BY PAR.GET(1)
 
                                     //mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).endAt(par.get(4)).addValueEventListener(new ValueEventListener() {
+                                    Log.d("--case 3--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").startAt("+par.get(2)+").endAt("+par.get(3)+"))") ;
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).endAt(par.get(3)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -143,6 +145,7 @@ public class DBApp  {
                                     //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) AND PAR.GET(1) >= PAR.GET(2) ORDER BY PAR.GET(1)
 
                                     //mDatabase.child(par.get(0)).child(par.get(1)).orderByChild(par.get(2)).startAt(par.get(3)).limitToFirst(Integer.parseInt(par.get(4))).addChildEventListener(new ChildEventListener() {
+                                    Log.d("--case 4--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").startAt("+par.get(2)+").limitToFirst(Integer.parseInt("+par.get(3)+"))") ;
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).limitToFirst(Integer.parseInt(par.get(3))).addChildEventListener(new ChildEventListener() {
                                         @Override
                                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -178,6 +181,7 @@ public class DBApp  {
 
                                     //INSERTA O ACTUALIZA UN OBJETO A PARTIR DE LA REFERENCIA
                                     //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+                                    Log.d("--case 10--","getReference("+par.get(0)+")") ;
                                     mDatabase.getReference(par.get(0)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -206,7 +210,7 @@ public class DBApp  {
                                     //mDatabase.getReference(par.get(0)).setValue(obj) ;
                                     //mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).getRef().child(par.get(3)).setValue(par.get(4)) ;
 
-
+                                    Log.d("--case 11--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").equalTo("+par.get(2)+")") ;
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
