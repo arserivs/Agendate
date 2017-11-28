@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -46,11 +47,6 @@ import java.util.List;
  */
 
 public class AgendaTurnoFragment extends Fragment {
-
-
-
-
-
 
 
     @Override
@@ -97,6 +93,14 @@ public class AgendaTurnoFragment extends Fragment {
                             }
                         }
                     }) ;
+                }
+            });
+
+            final TextView volver = (TextView) returnView.findViewById(R.id.agenda_turno_volver) ;
+            volver.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
             });
 

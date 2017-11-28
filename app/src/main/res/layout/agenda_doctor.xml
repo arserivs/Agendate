@@ -38,15 +38,15 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:tag="regular"
-            android:text=" ▼ "
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_centerVertical="true"
-            android:textSize="15sp" />
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_calendar"
+            android:layout_gravity="top"
+            android:layout_marginTop="0dp"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -61,5 +61,12 @@
         android:layout_height="wrap_content"
         android:fadeScrollbars="true"
         android:visibility="gone" />
+
+    <TextView
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No tienes turnos en la fecha seleccionada"
+        android:id="@+id/agenda_doctor_mensaje" />
 
 </LinearLayout>

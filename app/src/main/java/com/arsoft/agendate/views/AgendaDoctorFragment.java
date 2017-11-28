@@ -64,6 +64,7 @@ public class AgendaDoctorFragment extends Fragment {
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     private static TextView agendaFecha  ;
+    private static TextView agendaMensaje  ;
     private UserInfo userInfo ;
     private CustomListView listaAgendaDoctor ;
     private ProgressDialog progress ;
@@ -82,16 +83,8 @@ public class AgendaDoctorFragment extends Fragment {
 
         // Use the current date as the default date in the picker
         c = Calendar.getInstance();
+        agendaMensaje = (TextView) returnView.findViewById(R.id.agenda_doctor_mensaje) ;
         agendaFecha = (TextView) returnView.findViewById(R.id.agenda_doctor_fecha) ;
-        final LinearLayout agendaDoctorFechaLyt = (LinearLayout) returnView.findViewById(R.id.agenda_doctor_lytfecha) ;
-        agendaDoctorFechaLyt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                mostrarCalendario(view) ;
-            }
-        });
-
 
 
         agendaFecha.addTextChangedListener(new TextWatcher() {
@@ -112,8 +105,17 @@ public class AgendaDoctorFragment extends Fragment {
             }
         });
 
-
         agendaFecha.setText(dateFormat.format(c.getTime()));
+
+        final LinearLayout agendaDoctorFechaLyt = (LinearLayout) returnView.findViewById(R.id.agenda_doctor_lytfecha) ;
+        agendaDoctorFechaLyt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                mostrarCalendario(view) ;
+            }
+        });
+
         //agendaFecha.setText("20-07-2017");
 
         //cargarTurnos("20-07-2017") ;
@@ -162,9 +164,15 @@ public class AgendaDoctorFragment extends Fragment {
 
                     }
 
-                    AgendaDoctorAdapter adapter = new AgendaDoctorAdapter(getActivity(), listaTurnos);
-                    listaAgendaDoctor.setAdapter(adapter);
-                    listaAgendaDoctor.setVisibility(View.VISIBLE);
+                    if (listaTurnos.size() > 0) {
+                        agendaMensaje.setVisibility(View.GONE);
+                        AgendaDoctorAdapter adapter = new AgendaDoctorAdapter(getActivity(), listaTurnos);
+                        listaAgendaDoctor.setAdapter(adapter);
+                        listaAgendaDoctor.setVisibility(View.VISIBLE);
+                    } else {
+                        listaAgendaDoctor.setVisibility(View.GONE);
+                        agendaMensaje.setVisibility(View.VISIBLE);
+                    }
 
 
                 }
