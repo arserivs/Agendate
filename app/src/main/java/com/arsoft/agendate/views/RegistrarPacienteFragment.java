@@ -53,6 +53,7 @@ public class RegistrarPacienteFragment extends Fragment {
     private static final int PICK_CONTACT=1;
 
 
+    private EditText pctDocumento  ;
     private EditText pctNombre  ;
     private EditText pctTelefono  ;
     private EditText pctDireccion  ;
@@ -72,6 +73,7 @@ public class RegistrarPacienteFragment extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.registrar_paciente, container, false);
 
+        pctDocumento = (EditText) returnView.findViewById(R.id.registrar_paciente_documento) ;
         pctNombre = (EditText) returnView.findViewById(R.id.registrar_paciente_nombre) ;
         pctTelefono = (EditText) returnView.findViewById(R.id.registrar_paciente_telefono) ;
         pctDireccion = (EditText) returnView.findViewById(R.id.registrar_paciente_direccion) ;
@@ -131,8 +133,7 @@ public class RegistrarPacienteFragment extends Fragment {
                 //Log.d("---------------","/paciente/"+key) ;
                 //mDatabase.child("paciente").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                 final List<String> p = new ArrayList<>() ;
-                p.add("paciente/" + pctTelefono.getText().toString()) ;
-                //p.add(pctTelefono.getText().toString()) ;
+                p.add("paciente/" + pctDocumento.getText().toString()) ;
 
                 DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
                     @Override

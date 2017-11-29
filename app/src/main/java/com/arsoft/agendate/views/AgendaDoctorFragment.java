@@ -34,6 +34,7 @@ import android.support.annotation.Nullable;
 
 import com.arsoft.agendate.CustomListView;
 import com.arsoft.agendate.DrawerActivity;
+import com.arsoft.agendate.LoggedinBaseFragment;
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.DBApp;
@@ -77,6 +78,7 @@ public class AgendaDoctorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.agenda_doctor, container, false);
+        LoggedinBaseFragment.setTitle(getActivity(), "Tu agenda " + userInfo.nombre, null);
         userInfo =  ((DrawerActivity)getActivity()).getUserInfo() ;
         listaAgendaDoctor = (CustomListView) returnView.findViewById(R.id.agenda_doctor_lista);
 
