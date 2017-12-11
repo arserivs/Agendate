@@ -118,7 +118,7 @@ public class DashboardFragment extends Fragment {
 
 
             final List<String> p = new ArrayList<>() ;
-            p.add("turno/"+userInfo.nroTelefono) ;
+            p.add("turno/"+userInfo.idUsuario) ;
             //p.add(userInfo.nroTelefono) ;
             p.add("fecha_hora") ;
             p.add(fecha) ;

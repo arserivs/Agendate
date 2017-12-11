@@ -8,37 +8,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887444862878:android:36411e838b115c90",
-        "android_client_info": {
-          "package_name": "com.agendate"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "887444862878-okbct913pg3qk3tj6uk8gibe2kpg7tsu.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCv6JyrHtRU_gkKj5a7jadi9Jzj6Tglwo4"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:887444862878:android:effd883c9564851e",
         "android_client_info": {
           "package_name": "com.arsoft.agendate"
@@ -46,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "887444862878-dp9jp4s8gq3rak5pvoo5v3rsiblt2kmc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.arsoft.agendate",
+            "certificate_hash": "d554e1fbe70e73671a698a7e1df1774c5db28748"
+          }
+        },
+        {
           "client_id": "887444862878-okbct913pg3qk3tj6uk8gibe2kpg7tsu.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -60,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887444862878-okbct913pg3qk3tj6uk8gibe2kpg7tsu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

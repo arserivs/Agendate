@@ -12,7 +12,8 @@ import com.arsoft.agendate.json.typeconverter.Base64;
 
 @JsonObject
 public class UserInfo implements Parcelable {
-
+    @JsonField
+    public String idUsuario;
     @JsonField
     public String nombre;
     @JsonField
@@ -29,8 +30,8 @@ public class UserInfo implements Parcelable {
     public boolean logueoDuo;
     @JsonField
     public String cambiarPass;
-    @JsonField
-    public String nroTelefono;
+    //@JsonField
+    //public String nroTelefono;
 
     public UserInfo() {
 
@@ -53,6 +54,7 @@ public class UserInfo implements Parcelable {
     }
 
     protected UserInfo(Parcel in) {
+        idUsuario = in.readString();
         nombre = in.readString();
         apellido = in.readString();
         califBCP = in.readString();
@@ -61,11 +63,12 @@ public class UserInfo implements Parcelable {
         base64imageFotoPerfil = in.createByteArray();
         logueoDuo = in.readByte() != 0;
         cambiarPass = in.readString();
-        nroTelefono = in.readString();
+        //nroTelefono = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(idUsuario);
         dest.writeString(nombre);
         dest.writeString(apellido);
         dest.writeString(califBCP);
@@ -74,7 +77,7 @@ public class UserInfo implements Parcelable {
         dest.writeByteArray(base64imageFotoPerfil);
         dest.writeByte((byte) (logueoDuo ? 1 : 0));
         dest.writeString(cambiarPass);
-        dest.writeString(nroTelefono);
+        //dest.writeString(nroTelefono);
     }
 
     @Override

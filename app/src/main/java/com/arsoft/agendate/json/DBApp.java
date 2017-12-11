@@ -87,7 +87,7 @@ public class DBApp  {
 
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Log.d("agendate","dataSnapshot=" + dataSnapshot.toString()) ;
+                                            Log.d("agendate","1 dataSnapshot=" + dataSnapshot.toString()) ;
                                             listener.respuesta(dataSnapshot, null);
 
                                         }
@@ -101,12 +101,15 @@ public class DBApp  {
 
                                     break;
 
-                                /*
+
                                 case 2:
-                                    mDatabase.child(par.get(0)).child(par.get(1)).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) and CAMPO2=PAR.GET(3) and CAMPO4=PAR.GET(5)
+                                    Log.d("--case 2--","getReference("+par.get(0)+").child("+par.get(1)+").orderByChild("+par.get(2)+").equalTo("+par.get(3)+")") ;
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).orderByChild(par.get(3)).equalTo(par.get(4)).addValueEventListener(new ValueEventListener() {
 
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Log.d("agendate","2 dataSnapshot=" + dataSnapshot.toString()) ;
                                             listener.respuesta(dataSnapshot, null);
 
                                         }
@@ -119,7 +122,7 @@ public class DBApp  {
                                     });
 
                                     break ;
-                                */
+
 
                                 case 3:
                                     //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) AND PAR.GET(1) BETWEEN PAR.GET(2) AND PAR.GET(3) ORDER BY PAR.GET(1)
@@ -129,6 +132,7 @@ public class DBApp  {
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).endAt(par.get(3)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Log.d("agendate","3 dataSnapshot=" + dataSnapshot.toString()) ;
                                             listener.respuesta(dataSnapshot, null);
                                         }
                                         @Override
@@ -149,6 +153,7 @@ public class DBApp  {
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).startAt(par.get(2)).limitToFirst(Integer.parseInt(par.get(3))).addChildEventListener(new ChildEventListener() {
                                         @Override
                                         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                                            Log.d("agendate","4 dataSnapshot=" + dataSnapshot.toString()) ;
                                             listener.respuesta(dataSnapshot, null);
                                         }
 

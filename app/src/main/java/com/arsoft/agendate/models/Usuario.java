@@ -15,7 +15,7 @@ import java.util.Map;
 public class Usuario {
 
     public String email;
-    public String telefono;
+    public String clave;
     public int starCount = 0;
     public Map<String, Boolean> stars = new HashMap<>();
 
@@ -24,9 +24,9 @@ public class Usuario {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Usuario(String email, String telefono) {
+    public Usuario(String email, String clave) {
         this.email = email;
-        this.telefono = telefono;
+        this.clave = clave;
 
     }
 
@@ -35,7 +35,7 @@ public class Usuario {
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", email);
-        result.put("telefono", telefono);
+        result.put("clave", clave);
         result.put("starCount", starCount);
         result.put("stars", stars);
 

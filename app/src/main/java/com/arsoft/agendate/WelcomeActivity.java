@@ -30,6 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,7 +49,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
+
+import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -57,8 +73,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private boolean didVerifyVersion = false;
     //private DatabaseReference mDatabase ;
+    private EditText welcomeUsuario=null ;
+    private EditText welcomeClave=null ;
+    private String email;
 
 
+    public static final String TAG = "NOTICIAS";
+
+    private TextView infoTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +100,8 @@ public class WelcomeActivity extends AppCompatActivity {
         final Typeface mbRegular = Typeface.createFromAsset(getAssets(), "fonts/FSMillbank-Regular.ttf");
 
         final LinearLayout layout = (LinearLayout) findViewById(R.id.welcome_linearLayout);
+        welcomeUsuario = (EditText) findViewById(R.id.welcome_usuario) ;
+        welcomeClave = (EditText) findViewById(R.id.welcome_clave) ;
 
         for(TextView tw : Funciones.getTextViewsByTag(layout, "bold")) {
             tw.setTypeface(mbBold);
@@ -86,6 +110,8 @@ public class WelcomeActivity extends AppCompatActivity {
         for(TextView tw : Funciones.getTextViewsByTag(layout, "regular")) {
             tw.setTypeface(mbRegular);
         }
+
+
 
         final TextView topTextView = (TextView) findViewById(R.id.welcome_topTextView);
 
@@ -100,20 +126,24 @@ public class WelcomeActivity extends AppCompatActivity {
                 }
             }
 
-            if (cuentas.getCount()>1) {
+            //if (cuentas.getCount()>1) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(WelcomeActivity.this);
                 builder.setTitle("Seleccionà una cuenta")
                     .setAdapter(cuentas, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            obtenerCuenta(cuentas.getItem(which));
+                            //obtenerCuenta(cuentas.getItem(which));
+                            //login(cuentas.getItem(which)) ;
+                            email=cuentas.getItem(which) ;
 
                         }
                     }
                 ).create().show();
 
-            } else {
-                obtenerCuenta(cuentas.getItem(0));
-            }
+            //} else {
+                //obtenerCuenta(cuentas.getItem(0));
+                //login(cuentas.getItem(0)) ;
+                //email=cuentas.getItem(0);
+            //}
 
         } else {
 
@@ -124,6 +154,30 @@ public class WelcomeActivity extends AppCompatActivity {
             User.verificarVersion(this);
             didVerifyVersion = true;
         }
+
+
+        infoTextView = (TextView) findViewById(R.id.welcome_topTextView);
+
+        if (getIntent().getExtras() != null) {
+            for (String key : getIntent().getExtras().keySet()) {
+                String value = getIntent().getExtras().getString(key);
+                infoTextView.append("\n" + key + ": " + value);
+            }
+        }
+
+        String token = FirebaseInstanceId.getInstance().getToken() ;
+
+        Log.d(TAG, "Token 1: " + token);
+
+        final Button welcomeIngresar = (Button) findViewById(R.id.welcome_ingresar) ;
+        welcomeIngresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                login(email);
+            }
+        });
+
+
     }
 
     private void registrarse() {
@@ -146,7 +200,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     for (DataSnapshot postSnapshot: datos.getChildren()) {
                         final Usuario dbusuario = postSnapshot.getValue(Usuario.class);
                         if (dbusuario.email.equals(usuario)) {
-                            login(dbusuario.telefono);
+                            //login(dbusuario.telefono);
                             return;
                         }
                     }
@@ -163,40 +217,75 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
 
-    private void login(final String telefono) {
+    private void login(final String cuenta) {
 
-        final List<String> p = new ArrayList<>() ;
-        p.add("doctor/"+telefono) ;
-        //p.add(telefono) ;
+        if (!"".equals(welcomeClave.getText().toString())) {
+            final List<String> p = new ArrayList<>();
+            p.add("usuario/" + welcomeUsuario.getText().toString());
+            /*
+            p.add("email");
+            p.add(cuenta);
+            p.add("clave");
+            p.add(welcomeClave.getText().toString());
+            */
 
-        DBApp.request(1, p, null, this, new DBApp.DBAppListener(){
-            @Override
-            public void respuesta(DataSnapshot datos, String error) {
-                if (error != null) {
-                    Funciones.showErrorDialog(WelcomeActivity.this, error);
-                } else {
-                    Doctor post = datos.getValue(Doctor.class);
-                    if (post != null) {
-                        Log.d("agendate", "nombre----" + post.nombre);
-                        //Funciones.showDialog(WelcomeActivity.this, "Encontro doctor " + post.nombre);
-
-                        final UserInfo userInfo = new UserInfo();
-                        userInfo.nroTelefono = telefono;
-                        userInfo.nombre = post.nombre;
-
-                        Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                        intent.putExtra("userInfo", userInfo);
-                        startActivity(intent);
-
-
+            DBApp.request(1, p, null, this, new DBApp.DBAppListener() {
+                @Override
+                public void respuesta(DataSnapshot datos, String error) {
+                    if (error != null) {
+                        Funciones.showErrorDialog(WelcomeActivity.this, error);
                     } else {
-                        Funciones.showErrorDialog(WelcomeActivity.this, "No esta registrado como Doctor en la app");
+                        Log.d("agendate", "datos=" + datos.toString());
+                        Usuario post = datos.getValue(Usuario.class);
+                        if (post != null) {
+
+                            final List<String> d = new ArrayList<>();
+                            d.add("doctor/" + datos.getKey());
+
+                            DBApp.request(1, d, null, WelcomeActivity.this, new DBApp.DBAppListener() {
+                                @Override
+                                public void respuesta(DataSnapshot datosd, String error) {
+                                    if (error != null) {
+                                        Funciones.showErrorDialog(WelcomeActivity.this, error);
+                                    } else {
+                                        Log.d("agendate", "datos=" + datosd.toString());
+                                        Doctor post = datosd.getValue(Doctor.class);
+                                        if (post != null) {
+
+                                            final UserInfo userInfo = new UserInfo();
+                                            userInfo.idUsuario = datosd.getKey();
+                                            userInfo.nombre = post.nombre;
+
+                                            Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
+                                            intent.putExtra("userInfo", userInfo);
+                                            startActivity(intent);
+
+
+                                        } else {
+                                            Funciones.showErrorDialog(WelcomeActivity.this, "No está registrado para utilizar la app");
+                                        }
+                                    }
+                                }
+
+                            });
+
+                            final UserInfo userInfo = new UserInfo();
+                            userInfo.idUsuario = datos.getKey();
+                            userInfo.nombre = "";
+
+                            Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
+                            intent.putExtra("userInfo", userInfo);
+                            startActivity(intent);
+
+
+                        } else {
+                            Funciones.showErrorDialog(WelcomeActivity.this, "No está registrado para utilizar la app");
+                        }
                     }
                 }
 
-            }
-
-        });
+            });
+        }
 
 
     }
@@ -217,6 +306,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         }
     }
+
 
 
 

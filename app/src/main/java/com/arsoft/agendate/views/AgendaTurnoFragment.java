@@ -76,7 +76,7 @@ public class AgendaTurnoFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     final List<String> p = new ArrayList<>() ;
-                    p.add("turno/" + ((DrawerActivity)getActivity()).getUserInfo().nroTelefono) ;
+                    p.add("turno/" + ((DrawerActivity)getActivity()).getUserInfo().idUsuario) ;
                     p.add("fecha_hora") ;
                     p.add(turnoSel.fecha_hora) ;
                     p.add("confirma") ;

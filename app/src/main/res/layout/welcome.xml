@@ -20,178 +20,72 @@
             android:layout_marginBottom="10dp"
             />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="#fff"
-            android:text="Odontología general"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
-            android:tag="regular"
-            />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
+            android:textSize="15sp"
             android:textColor="#fff"
-            android:text="Prótesis"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginTop="10dp"
+            android:text=" Odontología general - Prótesis - Blanqueamiento
+            \n Ortodoncia - Endodoncia - Estética dental"
+            android:maxLines="3"
+            android:gravity="center_horizontal"
             android:tag="regular"
             />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"
         android:textColor="#fff"
-        android:text="Blanqueamiento"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
+        android:text="Usuario"
+        android:gravity="center_horizontal"
         android:tag="regular"
+        />
+    <EditText
+        android:id="@+id/welcome_usuario"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:textColor="#323232"
+        android:background="@color/lightGrey"
+        android:text="333333"
         />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="15sp"
         android:textColor="#fff"
-        android:text="Ortodoncia"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
+        android:text="Contraseña"
+        android:gravity="center_horizontal"
         android:tag="regular"
         />
-
-    <TextView
+    <EditText
+        android:id="@+id/welcome_clave"
         android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="16sp"
+        android:textColor="#323232"
+        android:background="@color/lightGrey"
+        android:text="dental"
+        />
+
+    <Button
+        android:id="@+id/welcome_ingresar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="#fff"
-        android:text="Endodoncia"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:text="INGRESAR"
+        android:textSize="15sp"
         android:tag="regular"
+        android:gravity="center_horizontal"
+        android:padding="18dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"
         />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="#fff"
-        android:text="Estética dental"
-        android:gravity="center"
-        android:padding="10dp"
-        android:layout_marginTop="10dp"
-        android:tag="regular"
-        />
-
-    <!--
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="0.25"
-    android:orientation="vertical"
-    >
-
-    <LinearLayout
-        android:id="@+id/welcome_layoutRegistrarPaciente"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-
-        <ImageView
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="fitCenter"
-            android:layout_gravity="center"
-            android:src="@drawable/icon_pen_white"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="#fff"
-            android:text="Registrar Paciente"
-            android:gravity="center"
-            android:padding="10dp"
-            android:layout_marginBottom="0dp"
-            android:tag="regular"
-            />
-
-
-    </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#33ffffff"
-        />
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.3"
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:id="@+id/welcome_layoutIngresarAgenda"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-            <ImageView
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitCenter"
-                android:layout_gravity="center"
-                android:src="@drawable/icon_locker_white"
-                />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#fff"
-                android:text="Ingresar a tu Agenda"
-                android:gravity="center"
-                android:padding="10dp"
-                android:tag="regular"
-                />
-
-            <TextView
-                android:id="@+id/welcome_textViewVersion"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#fff"
-                android:text="aaa"
-                android:gravity="center"
-                android:padding="0dp"
-                android:tag="regular"
-                />
-
-
-        </LinearLayout>
-    </LinearLayout>
--->
-
 
 </LinearLayout>
