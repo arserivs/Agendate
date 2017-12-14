@@ -78,8 +78,8 @@ public class AgendaDoctorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.agenda_doctor, container, false);
-        LoggedinBaseFragment.setTitle(getActivity(), "Tu agenda " + userInfo.nombre, null);
         userInfo =  ((DrawerActivity)getActivity()).getUserInfo() ;
+        LoggedinBaseFragment.setTitle(getActivity(), "Tu agenda " + userInfo.nombre, null);
         listaAgendaDoctor = (CustomListView) returnView.findViewById(R.id.agenda_doctor_lista);
 
 

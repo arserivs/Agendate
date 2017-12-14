@@ -70,6 +70,7 @@
         android:textColor="#323232"
         android:background="@color/lightGrey"
         android:text="dental"
+        android:inputType="textPassword"
         />
 
     <Button

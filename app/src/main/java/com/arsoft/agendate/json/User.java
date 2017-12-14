@@ -227,30 +227,18 @@ public class User extends JsonBaseItem {
 
 
     public static void logout(final Context context, final DrawerLayout drawerLayout) {
-        JsonBaseItem.request("login_mobile/logout", JsonBaseItem.class, null, null, new JsonBaseListener() {
-            @Override
-            public void onJsonBaseRequestFinished(@Nullable JsonBaseItem jsonItem, @Nullable String error) {
+        Intent intent = new Intent(BROADCAST_USER);
+        intent.putExtra(EXTRA_USER_LOGGEDIN, false);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
-                Intent intent = new Intent(BROADCAST_USER);
-                intent.putExtra(EXTRA_USER_LOGGEDIN, false);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        drawerLayout.closeDrawers();
 
-                drawerLayout.closeDrawers();
-            }
-        });
     }
 
     public static void logout(final Context context) {
-        JsonBaseItem.request("login_mobile/logout", JsonBaseItem.class, null, null, new JsonBaseListener() {
-            @Override
-            public void onJsonBaseRequestFinished(@Nullable JsonBaseItem jsonItem, @Nullable String error) {
-
-                Intent intent = new Intent(BROADCAST_USER);
-                intent.putExtra(EXTRA_USER_LOGGEDIN, false);
-                LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-
-            }
-        });
+        Intent intent = new Intent(BROADCAST_USER);
+        intent.putExtra(EXTRA_USER_LOGGEDIN, false);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 
 

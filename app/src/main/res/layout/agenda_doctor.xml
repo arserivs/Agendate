@@ -55,6 +55,70 @@
             android:id="@+id/agenda_doctor_fecha" />
     </LinearLayout>
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="15sp"
+        android:text="Agenda de pacientes"
+        android:layout_gravity="center_horizontal"
+        android:maxLines="2"
+        android:lines="1" />
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="left"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:text="Paciente"
+                android:layout_gravity="left"
+                android:maxLines="2"
+                android:lines="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right"
+            android:layout_weight="0.5">
+
+            <TextView
+                android:id="@+id/agenda_doctor_row_fecha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15sp"
+                android:text="Fecha"
+                android:layout_gravity="right"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
     <com.arsoft.agendate.CustomListView
         android:id="@+id/agenda_doctor_lista"
         android:layout_width="match_parent"
@@ -66,6 +130,7 @@
         android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="18dp"
         android:text="No tienes turnos en la fecha seleccionada"
         android:id="@+id/agenda_doctor_mensaje" />
 

@@ -62,6 +62,8 @@ public class DashboardFragment extends Fragment {
         final View returnView = inflater.inflate(R.layout.dashboard, container, false);
         final View progressBar = returnView.findViewById(R.id.dashboard_progressBar);
 
+        Funciones.mostrarProgress(getActivity(), "", "");
+
         final LinearLayout linearLayout = (LinearLayout) returnView.findViewById(R.id.dashboard_linearLayout);
         final Typeface mbBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/FSMillbank-Bold.ttf");
         final Typeface mbLight = Typeface.createFromAsset(getActivity().getAssets(), "fonts/FSMillbank-Light.ttf");
@@ -205,6 +207,7 @@ public class DashboardFragment extends Fragment {
 
 
 
+            Funciones.ocultarProgress();
 
 
         } catch (Exception ex) {

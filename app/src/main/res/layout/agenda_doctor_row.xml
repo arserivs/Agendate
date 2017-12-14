@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/hbGrey"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:text="Arsenio Riveros"
                     android:layout_gravity="left"
                     android:maxLines="2"
@@ -43,7 +43,7 @@
                     android:id="@+id/agenda_doctor_row_telefono"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textColor="@color/hbGrey"
                     android:text="0981369477"
                     android:layout_gravity="left" />
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/hbGrey"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:text="17/07/2017"
                     android:layout_gravity="right"
                     />
@@ -75,7 +75,7 @@
                     android:id="@+id/agenda_doctor_row_hora"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textColor="@color/hbGrey"
                     android:text="10:00"
                     android:layout_gravity="right" />

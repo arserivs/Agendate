@@ -115,6 +115,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         final TextView topTextView = (TextView) findViewById(R.id.welcome_topTextView);
 
+        /*
         AccountManager manager = (AccountManager) getSystemService(ACCOUNT_SERVICE);
         Log.d("agendate", "----------------lenght-" + manager.getAccounts().length) ;
         final ArrayAdapter<String> cuentas = new ArrayAdapter<String>(this, android.R.layout.select_dialog_multichoice);
@@ -148,7 +149,7 @@ public class WelcomeActivity extends AppCompatActivity {
         } else {
 
         }
-
+*/
 
         if(!didVerifyVersion) {
             User.verificarVersion(this);
@@ -173,7 +174,7 @@ public class WelcomeActivity extends AppCompatActivity {
         welcomeIngresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login(email);
+                login();
             }
         });
 
@@ -185,7 +186,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
-
+/*
     private void obtenerCuenta(final String usuario) {
 
         final List<String> p = new ArrayList<>() ;
@@ -214,12 +215,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
     }
 
+*/
 
 
-
-    private void login(final String cuenta) {
+    private void login() {
 
         if (!"".equals(welcomeClave.getText().toString())) {
+            Funciones.mostrarProgress(this, "", "");
+
             final List<String> p = new ArrayList<>();
             p.add("usuario/" + welcomeUsuario.getText().toString());
             /*
@@ -236,46 +239,47 @@ public class WelcomeActivity extends AppCompatActivity {
                         Funciones.showErrorDialog(WelcomeActivity.this, error);
                     } else {
                         Log.d("agendate", "datos=" + datos.toString());
-                        Usuario post = datos.getValue(Usuario.class);
-                        if (post != null) {
+                        Usuario usu = datos.getValue(Usuario.class);
+                        if (usu != null) {
 
-                            final List<String> d = new ArrayList<>();
-                            d.add("doctor/" + datos.getKey());
+                            if (usu.clave.equals(welcomeClave.getText().toString())) {
+                                final List<String> d = new ArrayList<>();
+                                d.add("doctor/" + datos.getKey());
 
-                            DBApp.request(1, d, null, WelcomeActivity.this, new DBApp.DBAppListener() {
-                                @Override
-                                public void respuesta(DataSnapshot datosd, String error) {
-                                    if (error != null) {
-                                        Funciones.showErrorDialog(WelcomeActivity.this, error);
-                                    } else {
-                                        Log.d("agendate", "datos=" + datosd.toString());
-                                        Doctor post = datosd.getValue(Doctor.class);
-                                        if (post != null) {
+                                DBApp.request(1, d, null, WelcomeActivity.this, new DBApp.DBAppListener() {
+                                    @Override
+                                    public void respuesta(DataSnapshot datosd, String error) {
 
-                                            final UserInfo userInfo = new UserInfo();
-                                            userInfo.idUsuario = datosd.getKey();
-                                            userInfo.nombre = post.nombre;
-
-                                            Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                                            intent.putExtra("userInfo", userInfo);
-                                            startActivity(intent);
+                                        Funciones.ocultarProgress();
 
 
+                                        if (error != null) {
+                                            Funciones.showErrorDialog(WelcomeActivity.this, error);
                                         } else {
-                                            Funciones.showErrorDialog(WelcomeActivity.this, "No está registrado para utilizar la app");
+                                            Log.d("agendate", "datos=" + datosd.toString());
+                                            Doctor doc = datosd.getValue(Doctor.class);
+                                            if (doc != null) {
+
+                                                final UserInfo userInfo = new UserInfo();
+                                                userInfo.idUsuario = datosd.getKey();
+                                                userInfo.nombre = doc.nombre;
+
+                                                Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
+                                                intent.putExtra("userInfo", userInfo);
+                                                startActivity(intent);
+
+
+                                            } else {
+                                                Funciones.showErrorDialog(WelcomeActivity.this, "No está registrado para utilizar la app");
+                                            }
                                         }
                                     }
-                                }
 
-                            });
+                                });
 
-                            final UserInfo userInfo = new UserInfo();
-                            userInfo.idUsuario = datos.getKey();
-                            userInfo.nombre = "";
-
-                            Intent intent = new Intent(WelcomeActivity.this, DrawerActivity.class);
-                            intent.putExtra("userInfo", userInfo);
-                            startActivity(intent);
+                            } else {
+                                Funciones.showErrorDialog(WelcomeActivity.this, "Login incorrecto");
+                            }
 
 
                         } else {

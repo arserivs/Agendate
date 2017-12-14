@@ -2,6 +2,7 @@ package com.arsoft.agendate.functions ;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
@@ -50,6 +51,21 @@ public class Funciones {
 
     }
 
+    private static ProgressDialog progress=null ;
+    public static void mostrarProgress(Activity act, String titulo, String mensaje) {
+        if (progress != null) {
+            if (progress.isShowing()) {
+                progress.dismiss();
+            }
+        }
+        progress = ProgressDialog.show(act, ("".equals(titulo)?"Procesando":titulo), ("".equals(mensaje)?"Por favor aguarde ...":""), true, false);
+    }
+
+    public static void ocultarProgress() {
+        progress.dismiss();
+    }
+
+    //final ProgressDialog progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
 
     //Esto son funciones helpers para las vistas que usan la mayor��a de los fragments
     public static void showErrorDialog(Context context, String message) {
