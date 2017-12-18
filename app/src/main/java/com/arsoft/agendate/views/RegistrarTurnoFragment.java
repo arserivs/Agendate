@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.TimePickerDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
@@ -44,12 +46,11 @@ public class RegistrarTurnoFragment extends Fragment {
     private static final int PICK_CONTACT=1;
 
 
-    private EditText pctNombre  ;
-    private EditText pctTelefono  ;
-    private EditText pctDireccion  ;
-    private EditText pctNick ;
-    private static TextView pctFechaNacimiento  ;
-    private static TextView pctFechaIngreso  ;
+    private TextView turnoNombre  ;
+    private EditText turnoTelefono  ;
+    private static TextView turnoFecha  ;
+    private static TextView turnoHora ;
+    private EditText turnoAnotacion ;
 
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -63,7 +64,11 @@ public class RegistrarTurnoFragment extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.registrar_turno, container, false);
 
-        pctTelefono = (EditText) returnView.findViewById(R.id.registrar_turno_telefono) ;
+        turnoNombre = (TextView) returnView.findViewById(R.id.registrar_turno_nombre) ;
+        turnoTelefono = (EditText) returnView.findViewById(R.id.registrar_turno_telefono) ;
+        turnoFecha = (TextView) returnView.findViewById(R.id.registrar_turno_fecha) ;
+        turnoHora = (TextView) returnView.findViewById(R.id.registrar_turno_hora) ;
+        turnoAnotacion = (EditText) returnView.findViewById(R.id.registrar_turno_anotaciones) ;
 
 
         // Use the current date as the default date in the picker
@@ -77,6 +82,13 @@ public class RegistrarTurnoFragment extends Fragment {
             }
         });
 
+        final LinearLayout lytHora = (LinearLayout) returnView.findViewById(R.id.registrar_turno_lythora) ;
+        lytHora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mostrarHora(view);
+            }
+        });
 
 
 
@@ -93,22 +105,17 @@ public class RegistrarTurnoFragment extends Fragment {
             }
         });
 
-        //TelephonyManager tm = (TelephonyManager) getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        //Log.d("aa","numero : " + tm.getLine1Number());
 
         final Button btnEnviar = (Button) returnView.findViewById(R.id.registrar_turno_siguiente) ;
 
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Write a message to the database
-                //final String key = pctTelefono.getText().toString() ;
-                //Log.d("---------------","/paciente/"+key) ;
-                //mDatabase.child("paciente").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                 final List<String> p = new ArrayList<>() ;
-                p.add("paciente/" + pctTelefono.getText().toString()) ;
+                p.add("paciente/" + turnoTelefono.getText().toString()) ;
                 //p.add(pctTelefono.getText().toString()) ;
 
+                /*
                 DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
                     @Override
                     public void respuesta(DataSnapshot datos, String error) {
@@ -137,6 +144,7 @@ public class RegistrarTurnoFragment extends Fragment {
                         }
                     }
                 });
+                */
 
             }
         });
@@ -200,9 +208,7 @@ public class RegistrarTurnoFragment extends Fragment {
                     cursor.close();
 
 
-                    pctTelefono.setText(nro);
-                    pctNombre.setText(nom);
-
+                    turnoTelefono.setText(nro);
                     //Log.d("------nro", nro) ;
 
 
@@ -232,12 +238,7 @@ public class RegistrarTurnoFragment extends Fragment {
 
     public void mostrarCalendario(View v) {
         try {
-            if (CAMPO_FECHA.equals("NACIMIENTO")) {
-                c.setTime(dateFormat.parse(pctFechaNacimiento.getText().toString()));// all done
-
-            } else {
-                c.setTime(dateFormat.parse(pctFechaIngreso.getText().toString()));// all done
-            }
+                c.setTime(dateFormat.parse(turnoFecha.getText().toString()));// all done
         } catch (Exception ex) {
 
         }
@@ -251,14 +252,7 @@ public class RegistrarTurnoFragment extends Fragment {
 
 
     public static void setearCalendario(String fecha) {
-        if (CAMPO_FECHA.equals("NACIMIENTO")) {
-            pctFechaNacimiento.setText(fecha);
-        } else {
-            pctFechaIngreso.setText(fecha);
-        }
-
-
-
+            turnoFecha.setText(fecha);
     }
 
     public static class DatePickerFragment extends DialogFragment
@@ -280,6 +274,37 @@ public class RegistrarTurnoFragment extends Fragment {
             // Do something with the date chosen by the user
             Log.d("riverosa","elegi la fecha=" + day + "/" + (month+1) + "/" + year);
             setearCalendario((day<10?"0":"") + day + "/" + (month<9?"0":"") +  (month+1) + "/" + year) ;
+        }
+    }
+
+    public void mostrarHora(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(), "timePicker");
+    }
+
+    public static void setearHora(String hora) {
+        turnoHora.setText(hora);
+
+    }
+
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute, true);
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            Log.d("riverosa","elegi la hora=" + hourOfDay + ":" + minute);
+            setearHora(hourOfDay + ":" + minute); ;
         }
     }
 }

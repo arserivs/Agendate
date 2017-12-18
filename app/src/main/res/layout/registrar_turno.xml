@@ -76,7 +76,7 @@
         />
 
     <TextView
-        android:id="@+id/registrar_paciente_nombre"
+        android:id="@+id/registrar_turno_nombre"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:textSize="16sp"
@@ -123,6 +123,67 @@
             android:id="@+id/registrar_turno_fecha" />
     </LinearLayout>
 
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hora"
+        android:textColor="#959595"
+        android:textSize="13sp"
+        android:tag="regular"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/registrar_turno_lythora"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_marginLeft="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/icon_timer"
+            android:layout_gravity="top"
+            android:layout_marginTop="0dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:id="@+id/registrar_turno_hora" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Anotaciones"
+        android:textColor="#959595"
+        android:textSize="13sp"
+        android:tag="regular"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
+        />
+
+    <EditText
+        android:id="@+id/registrar_turno_anotaciones"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textSize="16sp"
+        android:inputType="textNoSuggestions"
+        android:maxLines="2"
+        android:text=""
+        android:tag=""
+
+        />
 
 
     <LinearLayout

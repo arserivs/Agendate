@@ -53,6 +53,21 @@
             android:layout_height="wrap_content"
             android:text=""
             android:id="@+id/agenda_doctor_fecha" />
+
+        <TextView
+            android:id="@+id/agenda_doctor_registrar_turno"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"
+            android:text="Registrar Turno"
+            android:textSize="12sp"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:visibility="visible"
+            />
+
+
     </LinearLayout>
 
 

@@ -118,6 +118,18 @@ public class AgendaDoctorFragment extends Fragment {
             }
         });
 
+
+        final TextView agendaRegistrarTurno = (TextView) returnView.findViewById(R.id.agenda_doctor_registrar_turno) ;
+        agendaRegistrarTurno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.loggedinbase_frameLayout, new RegistrarTurnoFragment());
+                ft.addToBackStack(null);
+                ft.commit();
+            }
+        });
+
         //agendaFecha.setText("20-07-2017");
 
         //cargarTurnos("20-07-2017") ;
