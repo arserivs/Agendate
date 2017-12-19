@@ -86,79 +86,98 @@
 
         />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:textColor="#959595"
-        android:textSize="13sp"
-        android:tag="regular"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        />
-
-
     <LinearLayout
-        android:id="@+id/registrar_turno_lytfecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/icon_calendar"
-            android:layout_gravity="top"
-            android:layout_marginTop="0dp"
-            />
-
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/registrar_turno_fecha" />
-    </LinearLayout>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:textColor="#959595"
+                android:textSize="13sp"
+                android:tag="regular"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                />
 
 
+            <LinearLayout
+                android:id="@+id/registrar_turno_lytfecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hora"
-        android:textColor="#959595"
-        android:textSize="13sp"
-        android:tag="regular"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="20dp"
-        />
-
-
-    <LinearLayout
-        android:id="@+id/registrar_turno_lythora"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_marginLeft="15dp"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/icon_timer"
-            android:layout_gravity="top"
-            android:layout_marginTop="0dp"
-            />
+                <ImageView
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_calendar"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="0dp"
+                    />
 
 
-        <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/registrar_turno_fecha" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:id="@+id/registrar_turno_hora" />
+            android:layout_marginLeft="50dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hora"
+                android:textColor="#959595"
+                android:textSize="13sp"
+                android:tag="regular"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                />
+
+
+            <LinearLayout
+                android:id="@+id/registrar_turno_lythora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/icon_timer"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="0dp"
+                    />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/registrar_turno_hora" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 
@@ -169,19 +188,21 @@
         android:textColor="#959595"
         android:textSize="13sp"
         android:tag="regular"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="0dp"
         android:layout_marginTop="20dp"
         />
 
     <EditText
         android:id="@+id/registrar_turno_anotaciones"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="100dp"
         android:textSize="16sp"
-        android:inputType="textNoSuggestions"
+        android:inputType="textMultiLine"
+        android:lines="2"
         android:maxLines="2"
         android:text=""
         android:tag=""
+        android:layout_marginTop="0dp"
 
         />
 
