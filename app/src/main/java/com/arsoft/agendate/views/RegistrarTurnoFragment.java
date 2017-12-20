@@ -29,6 +29,7 @@ import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.models.Paciente;
+import com.arsoft.agendate.models.Turno;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.DateFormat;
@@ -51,6 +52,7 @@ public class RegistrarTurnoFragment extends Fragment {
     private static TextView turnoFecha  ;
     private static TextView turnoHora ;
     private EditText turnoAnotacion ;
+    private static String turnoPaciente ;
 
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -180,15 +182,15 @@ public class RegistrarTurnoFragment extends Fragment {
                     String[] projection = { CommonDataKinds.Phone.NUMBER, CommonDataKinds.Phone.DISPLAY_NAME };
                     Cursor cursor = cr.query(uri, projection, null, null, null);
                     String nro = "";
-                    String nom = "";
+                    //String nom = "";
                     while (cursor.moveToNext()) {
                         int numberColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.NUMBER);
-                        int nameColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.DISPLAY_NAME);
+                        //int nameColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.DISPLAY_NAME);
 
 
                         if (cursor.getString(numberColumnIndex).length()>=9) {
                             nro = allTrim(cursor.getString(numberColumnIndex).trim()) ;
-                            nom = cursor.getString(nameColumnIndex).trim() ;
+                            //nom = cursor.getString(nameColumnIndex).trim() ;
                             if ( nro.substring(0,2).equals("09") && nro.length()==10) {
                                 break;
                             }
@@ -208,10 +210,68 @@ public class RegistrarTurnoFragment extends Fragment {
                     cursor.close();
 
 
+                    //nro="0971159170" ;
                     turnoTelefono.setText(nro);
-                    //Log.d("------nro", nro) ;
+                    final List<String> p = new ArrayList<>() ;
+                    p.add("pacientetelefono/" + nro) ;
 
+                    DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
+                        @Override
+                        public void respuesta(DataSnapshot datos2, String error2) {
+                            if (error2 != null) {
+                                Funciones.showErrorDialog(getActivity(), error2);
+                            } else {
+                                Log.d("agendate", "datos=" + datos2.toString());
+                                Turno post = datos2.getValue(Turno.class);
+                                if (post != null) {
 
+                                    turnoPaciente = post.paciente ;
+                                    Log.d("agendate", "turnoPaciente=" + turnoPaciente);
+                                    final List<String> p2 = new ArrayList<>() ;
+                                    p2.add("paciente/" + turnoPaciente) ;
+
+                                    DBApp.request(1, p2, null, getActivity(), new DBApp.DBAppListener(){
+                                        @Override
+                                        public void respuesta(DataSnapshot datos, String error) {
+                                            if (error != null) {
+                                                Funciones.showErrorDialog(getActivity(), error);
+                                            } else {
+                                                Paciente post2 = datos.getValue(Paciente.class);
+                                                if (post2 != null) {
+                                                    Log.d("agendate","nombre----" +  post2.nombre);
+                                                    turnoNombre.setText(post2.nombre);
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+
+                    /*
+                    final List<String> p = new ArrayList<>() ;
+                    p.add("paciente") ;
+                    p.add("telefono") ;
+                    p.add(nro) ;
+
+                    DBApp.request(5, p, null, getActivity(), new DBApp.DBAppListener(){
+                        @Override
+                        public void respuesta(DataSnapshot datos2, String error2) {
+                            if (error2 != null) {
+                                Funciones.showErrorDialog(getActivity(), error2);
+                            } else {
+                                turnoPaciente = datos2.getKey() ;
+                                Log.d("agendate","turnoPaciente----" +  turnoPaciente);
+                                Paciente post2 = datos2.getValue(Paciente.class);
+                                if (post2 != null) {
+                                    Log.d("agendate","nombre----" +  post2.nombre);
+                                    turnoNombre.setText(post2.nombre);
+                                }
+                            }
+                        }
+                    });
+                    */
                 }
                 break;
         }

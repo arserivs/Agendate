@@ -104,7 +104,7 @@ public class DBApp  {
 
                                 case 2:
                                     //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) and CAMPO2=PAR.GET(3) and CAMPO4=PAR.GET(5)
-                                    Log.d("--case 2--","getReference("+par.get(0)+").child("+par.get(1)+").orderByChild("+par.get(2)+").equalTo("+par.get(3)+")") ;
+                                    Log.d("--case 2--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").equalTo("+par.get(2)+").orderByChild("+par.get(3)+").equalTo("+par.get(4)+")") ;
                                     mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).orderByChild(par.get(3)).equalTo(par.get(4)).addValueEventListener(new ValueEventListener() {
 
                                         @Override
@@ -180,6 +180,28 @@ public class DBApp  {
 
 
                                     break;
+
+
+                                case 5:
+                                    //SELECT * FROM DB WHERE CAMPO=PAR.GET(0) and PAR.GET(1)=PAR.GET(2)
+                                    Log.d("--case 5--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").equalTo("+par.get(2)+")") ;
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).addValueEventListener(new ValueEventListener() {
+
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Log.d("agendate","5 dataSnapshot=" + dataSnapshot.toString()) ;
+                                            listener.respuesta(dataSnapshot, null);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The read failed: " + databaseError.getCode());
+                                        }
+                                    });
+
+                                    break ;
 
 
                                 case 10:

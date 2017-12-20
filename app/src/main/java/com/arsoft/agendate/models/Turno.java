@@ -1,6 +1,7 @@
 package com.arsoft.agendate.models;
 import android.os.Parcelable;
 import android.os.Parcel;
+import android.support.annotation.Nullable;
 
 import com.arsoft.agendate.functions.Funciones;
 import com.google.firebase.database.Exclude;
