@@ -149,7 +149,7 @@ public class RegistrarPacienteFragment extends Fragment {
                                 Funciones.showDialog(getActivity(), "Debe insertar");
                                 Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
                                 //mDatabase.child("paciente").child(key).setValue(newPaciente);
-                                DBApp.request(10, p, newPaciente, getActivity(), new DBApp.DBAppListener(){
+                                DBApp.update(10, p, newPaciente, null, getActivity(), new DBApp.DBAppListener(){
                                     @Override
                                     public void respuesta(DataSnapshot datos, String error) {
                                         if (error != null) {

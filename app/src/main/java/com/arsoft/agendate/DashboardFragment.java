@@ -132,9 +132,16 @@ public class DashboardFragment extends Fragment {
                     if (error != null) {
                         Funciones.showErrorDialog(getActivity(), error);
                     } else {
+                        for (DataSnapshot postSnapshot: datos.getChildren()) {
+                            // TODO: handle the post
+                            Log.d("agendate", "postSnapshot.getKey()=" + postSnapshot.getKey()) ;
+                            Log.d("agendate", "postSnapshot.getKey()" + postSnapshot.toString()) ;
+                        }
+                        /*
                         proximoTurno = datos.getValue(Turno.class);
                         subtitle.setText(proximoTurno.nombre + ", el " + proximoTurno.fecha + " a las " + proximoTurno.hora);
                         view.setVisibility(View.VISIBLE);
+                        */
                     }
                 }
                 @Override

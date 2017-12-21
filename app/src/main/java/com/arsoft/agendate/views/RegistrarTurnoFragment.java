@@ -134,7 +134,7 @@ public class RegistrarTurnoFragment extends Fragment {
                 Map<String, Object> childUpdates = new HashMap<>();
                 childUpdates.put("/turno/" + turnoDoctor, postValues);
 
-                DBApp.update(childUpdates, getActivity(), new DBApp.DBAppListener() {
+                DBApp.update(0, null, null, childUpdates, getActivity(), new DBApp.DBAppListener() {
                             @Override
                             public void respuesta(DataSnapshot datos, String error) {}
 

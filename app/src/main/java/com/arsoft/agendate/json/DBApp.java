@@ -206,58 +206,6 @@ public class DBApp  {
 
                                     break ;
 
-
-                                case 10:
-
-                                    //INSERTA O ACTUALIZA UN OBJETO A PARTIR DE LA REFERENCIA
-                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
-                                    Log.d("--case 10--","getReference("+par.get(0)+")") ;
-                                    mDatabase.getReference(par.get(0)).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                            dataSnapshot.getRef().setValue(obj) ;
-
-
-                                            listener.respuesta(dataSnapshot, null);
-
-                                        }
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
-                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
-                                        }
-                                    });
-
-
-
-                                    break ;
-
-                                case 11:
-
-                                    //ACTUALIZA UN VALOR A PARTIR DE LA REFERENCIA
-                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
-                                    //mDatabase.getReference(par.get(0)).setValue(obj) ;
-                                    //mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).getRef().child(par.get(3)).setValue(par.get(4)) ;
-
-                                    Log.d("--case 11--","getReference("+par.get(0)+").orderByChild("+par.get(1)+").equalTo("+par.get(2)+")") ;
-                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                                                ds.getRef().child(par.get(3)).setValue(par.get(4));
-                                            }
-                                            listener.respuesta(dataSnapshot, null);
-                                        }
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
-                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
-                                        }
-                                    });
-
-
-                                    break ;
                                 default:
                                     listener.respuesta(null, "Error en el tipo de consulta");
                             }
@@ -283,7 +231,10 @@ public class DBApp  {
 
 
 
-    public static void update(final Map<String, Object> childUpdates,
+    public static void update(final int tipo,
+                              final List<String> par,
+                              final Object obj,
+                              final Map<String, Object> childUpdates,
                                final Activity activity,
                                final DBAppListener listener) {
 
@@ -308,13 +259,73 @@ public class DBApp  {
                         @Override
                         public void run() {
 
+                            switch (tipo) {
 
-                            mDatabase.getReference().updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    listener.respuesta(task.isSuccessful());
-                                }
-                            }) ;
+                                case 10:
+
+                                    //INSERTA O ACTUALIZA UN OBJETO A PARTIR DE LA REFERENCIA
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+                                    Log.d("--case 10--", "getReference(" + par.get(0) + ")");
+                                    mDatabase.getReference(par.get(0)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                            dataSnapshot.getRef().setValue(obj);
+
+
+                                            listener.respuesta(dataSnapshot, null);
+
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
+                                        }
+                                    });
+
+
+                                    break;
+
+                                case 11:
+
+                                    //ACTUALIZA UN VALOR A PARTIR DE LA REFERENCIA
+                                    //mDatabase.child(par.get(0)).child(par.get(1)).setValue(obj) ;
+                                    //mDatabase.getReference(par.get(0)).setValue(obj) ;
+                                    //mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).getRef().child(par.get(3)).setValue(par.get(4)) ;
+
+                                    Log.d("--case 11--", "getReference(" + par.get(0) + ").orderByChild(" + par.get(1) + ").equalTo(" + par.get(2) + ")");
+                                    mDatabase.getReference(par.get(0)).orderByChild(par.get(1)).equalTo(par.get(2)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                                ds.getRef().child(par.get(3)).setValue(par.get(4));
+                                            }
+                                            listener.respuesta(dataSnapshot, null);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The update failed: " + databaseError.getCode());
+                                        }
+                                    });
+
+
+                                    break;
+                                case 20:
+                                    mDatabase.getReference().updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            listener.respuesta(task.isSuccessful());
+                                        }
+                                    });
+
+                                    break ;
+
+                                default:
+                                    listener.respuesta(null, "Error al actualizar");
+                            }
 
                         }
                     });

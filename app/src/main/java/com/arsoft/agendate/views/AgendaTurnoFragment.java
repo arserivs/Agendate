@@ -83,7 +83,7 @@ public class AgendaTurnoFragment extends Fragment {
                     p.add("N");
 
 
-                    DBApp.request(11, p, null, getActivity(), new DBApp.DBAppListener(){
+                    DBApp.update(11, p, null, null, getActivity(), new DBApp.DBAppListener(){
                         @Override
                         public void respuesta(DataSnapshot datos, String error) {
                             if (error != null) {
