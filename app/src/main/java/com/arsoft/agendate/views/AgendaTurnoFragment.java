@@ -92,6 +92,10 @@ public class AgendaTurnoFragment extends Fragment {
                                 Funciones.showDialog(getActivity(), "Se canceló el tuno");
                             }
                         }
+
+                        @Override
+                        public void respuesta(boolean actualizo) { }
+
                     }) ;
                 }
             });

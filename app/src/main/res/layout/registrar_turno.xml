@@ -219,7 +219,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white"
-            android:text="SIGUIENTE"
+            android:text="REGISTRAR"
             android:textSize="12sp"
             android:tag="regular"
             android:gravity="left|center_vertical"

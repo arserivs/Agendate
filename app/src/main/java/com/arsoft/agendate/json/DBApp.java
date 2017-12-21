@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.bluelinelabs.logansquare.LoganSquare;
 import com.bluelinelabs.logansquare.annotation.JsonField;
 import com.bluelinelabs.logansquare.annotation.JsonObject;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,6 +44,7 @@ public class DBApp  {
 
     public interface DBAppListener {
         void respuesta(DataSnapshot datos, String error);
+        void respuesta(boolean actualizo);
     }
 
 
@@ -255,7 +258,6 @@ public class DBApp  {
 
 
                                     break ;
-
                                 default:
                                     listener.respuesta(null, "Error en el tipo de consulta");
                             }
@@ -276,6 +278,55 @@ public class DBApp  {
         }).start();
 
     }
+
+
+
+
+
+    public static void update(final Map<String, Object> childUpdates,
+                               final Activity activity,
+                               final DBAppListener listener) {
+
+        final Handler handler = new Handler();
+
+        if(activity!=null && !isNetworkAvailable(activity)) {
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    listener.respuesta(null, "Dental Care no está pudiendo obtener una conexión, compruebe la señal de su teléfono y si puede acceder a internet");
+                }
+            });
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+
+
+                            mDatabase.getReference().updateChildren(childUpdates).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    listener.respuesta(task.isSuccessful());
+                                }
+                            }) ;
+
+                        }
+                    });
+                } catch (Exception ex) {
+                    listener.respuesta(false);
+                }
+
+            }
+        }).start();
+
+    }
+
 
 
     private static boolean isNetworkAvailable(Activity activity) {

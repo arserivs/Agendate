@@ -137,6 +137,9 @@ public class DashboardFragment extends Fragment {
                         view.setVisibility(View.VISIBLE);
                     }
                 }
+                @Override
+                public void respuesta(boolean actualizo) { }
+
 
             });
 

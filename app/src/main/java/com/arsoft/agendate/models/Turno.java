@@ -25,6 +25,7 @@ public class Turno implements Parcelable {
     public String hora ;
     public String nombre ;
     public String fecha_hora ;
+    public String anotaciones ;
     //public String key ;
 
 
@@ -33,12 +34,13 @@ public class Turno implements Parcelable {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Turno(String confirma, String paciente, String fecha, String hora, String nombre) {
+    public Turno(String confirma, String paciente, String fecha, String hora, String nombre, String anotaciones) {
         this.confirma = confirma;
         this.paciente = paciente;
         this.fecha = fecha;
         this.hora = hora;
         this.nombre = nombre;
+        this.anotaciones = anotaciones;
 
         this.fecha_hora = Funciones.cambiarFormatoFecha(fecha + " " + hora, "dd/MM/yyyy HH:mm", "yyyyMMddHHmm") ;
     }
@@ -54,6 +56,7 @@ public class Turno implements Parcelable {
         result.put("nombre", nombre);
         //result.put("key", key);
         result.put("fecha_hora", fecha_hora);
+        result.put("anotaciones", anotaciones);
 
 
 
@@ -70,6 +73,7 @@ public class Turno implements Parcelable {
         nombre = in.readString();
         //key = in.readString();
         fecha_hora = in.readString();
+        anotaciones = in.readString();
     }
 
     @Override

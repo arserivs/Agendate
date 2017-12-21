@@ -274,6 +274,9 @@ public class WelcomeActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
+                                    @Override
+                                    public void respuesta(boolean actualizo) { }
+
 
                                 });
 
@@ -287,6 +290,9 @@ public class WelcomeActivity extends AppCompatActivity {
                         }
                     }
                 }
+                @Override
+                public void respuesta(boolean actualizo) { }
+
 
             });
         }

@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.arsoft.agendate.DrawerActivity;
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.DBApp;
@@ -36,7 +37,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -53,6 +56,7 @@ public class RegistrarTurnoFragment extends Fragment {
     private static TextView turnoHora ;
     private EditText turnoAnotacion ;
     private static String turnoPaciente ;
+    private static String turnoDoctor ;
 
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -65,6 +69,8 @@ public class RegistrarTurnoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.registrar_turno, container, false);
+
+        turnoDoctor=((DrawerActivity)getActivity()).getUserInfo().idUsuario ;
 
         turnoNombre = (TextView) returnView.findViewById(R.id.registrar_turno_nombre) ;
         turnoTelefono = (EditText) returnView.findViewById(R.id.registrar_turno_telefono) ;
@@ -108,27 +114,40 @@ public class RegistrarTurnoFragment extends Fragment {
         });
 
 
-        final Button btnEnviar = (Button) returnView.findViewById(R.id.registrar_turno_siguiente) ;
+        final Button btnRegistrar = (Button) returnView.findViewById(R.id.registrar_turno_siguiente) ;
 
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
+        btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final List<String> p = new ArrayList<>() ;
-                p.add("paciente/" + turnoTelefono.getText().toString()) ;
-                //p.add(pctTelefono.getText().toString()) ;
+
+
+                Turno post = new Turno("S",
+                        turnoPaciente,
+                        turnoFecha.getText().toString(),
+                        turnoHora.getText().toString(),
+                        turnoNombre.getText().toString(),
+                        turnoAnotacion.getText().toString()
+                ) ;
+
+                Map<String, Object> postValues = post.toMap();
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                childUpdates.put("/turno/" + turnoDoctor, postValues);
+
+                DBApp.update(childUpdates, getActivity(), new DBApp.DBAppListener() {
+                            @Override
+                            public void respuesta(DataSnapshot datos, String error) {}
+
+                            @Override
+                            public void respuesta(boolean actualizo) {
+
+                            }
+                        }) ;
 
                 /*
-                DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
-                    @Override
-                    public void respuesta(DataSnapshot datos, String error) {
-                        if (error != null) {
-                            Funciones.showErrorDialog(getActivity(), error);
-                        } else {
-                            Paciente post = datos.getValue(Paciente.class);
-                            if (post != null) {
-                                Log.d("agendate","nombre----" +  post.nombre);
-                                Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
-                            } else {
+                final List<String> p = new ArrayList<>() ;
+                p.add("paciente/" + turnoTelefono.getText().toString()) ;
+
                                 Funciones.showDialog(getActivity(), "Debe insertar");
                                 Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
                                 //mDatabase.child("paciente").child(key).setValue(newPaciente);
@@ -142,11 +161,7 @@ public class RegistrarTurnoFragment extends Fragment {
                                         }
                                     }
                                 }) ;
-                            }
-                        }
-                    }
-                });
-                */
+                                */
 
             }
         });
@@ -243,10 +258,18 @@ public class RegistrarTurnoFragment extends Fragment {
                                                 }
                                             }
                                         }
+
+                                        @Override
+                                        public void respuesta(boolean actualizo) { }
+
                                     });
                                 }
                             }
                         }
+
+                        @Override
+                        public void respuesta(boolean actualizo) { }
+
                     });
 
                     /*

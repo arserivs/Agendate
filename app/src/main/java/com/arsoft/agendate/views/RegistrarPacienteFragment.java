@@ -158,10 +158,17 @@ public class RegistrarPacienteFragment extends Fragment {
 
                                         }
                                     }
+                                    @Override
+                                    public void respuesta(boolean actualizo) { }
+
                                 }) ;
                             }
                         }
                     }
+
+                    @Override
+                    public void respuesta(boolean actualizo) { }
+
                 });
 
             }

@@ -193,6 +193,10 @@ public class AgendaDoctorFragment extends Fragment {
                 }
             }
 
+            @Override
+            public void respuesta(boolean actualizo) { }
+
+
         });
 
     }
