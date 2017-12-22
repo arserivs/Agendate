@@ -29,6 +29,7 @@ import com.arsoft.agendate.DrawerActivity;
 import com.arsoft.agendate.R;
 import com.arsoft.agendate.functions.Funciones;
 import com.arsoft.agendate.json.DBApp;
+import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.models.Paciente;
 import com.arsoft.agendate.models.Turno;
 import com.google.firebase.database.DataSnapshot;
@@ -56,11 +57,14 @@ public class RegistrarTurnoFragment extends Fragment {
     private static TextView turnoHora ;
     private EditText turnoAnotacion ;
     private static String turnoPaciente ;
-    private static String turnoDoctor ;
+
 
     private static Calendar c ;
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat timeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
     private static String CAMPO_FECHA ;
+    private UserInfo userInfoInt ;
 
 
 
@@ -70,7 +74,8 @@ public class RegistrarTurnoFragment extends Fragment {
         // Inflate the layout for this fragment
         View returnView = inflater.inflate(R.layout.registrar_turno, container, false);
 
-        turnoDoctor=((DrawerActivity)getActivity()).getUserInfo().idUsuario ;
+        userInfoInt = ((DrawerActivity)getActivity()).getUserInfo() ;
+
 
         turnoNombre = (TextView) returnView.findViewById(R.id.registrar_turno_nombre) ;
         turnoTelefono = (EditText) returnView.findViewById(R.id.registrar_turno_telefono) ;
@@ -121,7 +126,9 @@ public class RegistrarTurnoFragment extends Fragment {
             public void onClick(View v) {
 
 
-                Turno post = new Turno("S",
+                Funciones.mostrarProgress(getActivity(), "Dental Care", "Registrando turno");
+
+                final Turno post = new Turno("S",
                         turnoPaciente,
                         turnoFecha.getText().toString(),
                         turnoHora.getText().toString(),
@@ -129,39 +136,66 @@ public class RegistrarTurnoFragment extends Fragment {
                         turnoAnotacion.getText().toString()
                 ) ;
 
-                Map<String, Object> postValues = post.toMap();
 
-                Map<String, Object> childUpdates = new HashMap<>();
-                childUpdates.put("/turno/" + turnoDoctor, postValues);
+                int duracion=userInfoInt.duracionmedia ;
+                String desde = Funciones.sumarFecha(post.fecha_hora, "yyyyMMddHHmm", Calendar.MINUTE, (-1 * duracion)) ;
+                String hasta = Funciones.sumarFecha(post.fecha_hora, "yyyyMMddHHmm", Calendar.MINUTE, duracion) ;
 
-                DBApp.update(0, null, null, childUpdates, getActivity(), new DBApp.DBAppListener() {
-                            @Override
-                            public void respuesta(DataSnapshot datos, String error) {}
+                Log.d("agendate", "fechahora " + desde + "<" + post.fecha_hora + "<" + hasta) ;
+                final List<String> p = new ArrayList<>();
+                p.add("turno/" + userInfoInt.idUsuario);
+                p.add(desde);
+                p.add(hasta);
 
-                            @Override
-                            public void respuesta(boolean actualizo) {
+                DBApp.request(6, p, null, getActivity(), new DBApp.DBAppListener() {
+                    @Override
+                    public void respuesta(DataSnapshot datos, String error) {
+                        if(datos.getValue() != null) {
+                            Funciones.ocultarProgress();
+                            Turno turact=datos.getValue(Turno.class) ;
+                            Funciones.showErrorDialog(getActivity(), "Tienes un turno en muy próximo en ese horario: " + turact.nombre + " a las " + turact.hora);
+                        } else {
+                            //Map<String, Object> postValues = post.toMap();
+                            //Map<String, Object> childUpdates = new HashMap<>();
+                            //childUpdates.put("/turno/" + userInfoInt.idUsuario + "/" + post.fecha_hora, postValues);
+                            final List<String> t = new ArrayList<>() ;
+                            t.add("turno/" + userInfoInt.idUsuario + "/" + post.fecha_hora) ;
 
-                            }
-                        }) ;
 
-                /*
-                final List<String> p = new ArrayList<>() ;
-                p.add("paciente/" + turnoTelefono.getText().toString()) ;
 
-                                Funciones.showDialog(getActivity(), "Debe insertar");
-                                Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
-                                //mDatabase.child("paciente").child(key).setValue(newPaciente);
-                                DBApp.request(10, p, newPaciente, getActivity(), new DBApp.DBAppListener(){
-                                    @Override
-                                    public void respuesta(DataSnapshot datos, String error) {
-                                        if (error != null) {
-                                            Funciones.showErrorDialog(getActivity(), error);
-                                        } else {
-
-                                        }
+                            DBApp.update(10, t, post, null, getActivity(), new DBApp.DBAppListener() {
+                                @Override
+                                public void respuesta(DataSnapshot datos, String error) {
+                                    Funciones.ocultarProgress();
+                                    if (error != null) {
+                                        Funciones.showErrorDialog(getActivity(), error);
+                                    } else {
+                                        Funciones.showDialog(getActivity(), "Se registró el turno");
                                     }
-                                }) ;
-                                */
+                                }
+
+                                @Override
+                                public void respuesta(boolean actualizo) {
+                                    /*
+                                    Funciones.ocultarProgress();
+                                    if (actualizo) {
+                                        Funciones.showDialog(getActivity(), "Se registró el turno");
+                                    }else {
+                                        Funciones.showErrorDialog(getActivity(), "Ocurrió un error al intentar registrar el turno");
+                                    }
+                                    */
+
+                                }
+                            }) ;
+                        }
+
+                    }
+
+                    @Override
+                    public void respuesta(boolean actualizo) {}
+                }) ;
+
+
 
             }
         });
@@ -321,12 +355,14 @@ public class RegistrarTurnoFragment extends Fragment {
 
     public void mostrarCalendario(View v) {
         try {
+            if (!"".equals(turnoFecha.getText().toString())) {
                 c.setTime(dateFormat.parse(turnoFecha.getText().toString()));// all done
+            }
         } catch (Exception ex) {
-
+            ex.printStackTrace();
         }
 
-
+        Log.d("agendate", "c antes de Fecha=" + c.getTime()) ;
         DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
 
@@ -361,6 +397,17 @@ public class RegistrarTurnoFragment extends Fragment {
     }
 
     public void mostrarHora(View v) {
+        try {
+            if (!"".equals(turnoFecha.getText().toString()) & !"".equals(turnoHora.getText().toString())) {
+                Log.d("agendate", "c entra setTime A Hora=" + turnoFecha.getText().toString() + " " + turnoHora.getText().toString()) ;
+                c.setTime(timeFormat.parse(turnoFecha.getText().toString() + " " + turnoHora.getText().toString()));// all done
+                Log.d("agendate", "c entra setTime D Hora=" + c.getTime()) ;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        Log.d("agendate", "c antes de Hora=" + c.getTime()) ;
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getFragmentManager(), "timePicker");
     }
@@ -376,7 +423,6 @@ public class RegistrarTurnoFragment extends Fragment {
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
             int hour = c.get(Calendar.HOUR_OF_DAY);
             int minute = c.get(Calendar.MINUTE);
 

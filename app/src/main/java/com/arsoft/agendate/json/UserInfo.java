@@ -19,7 +19,7 @@ public class UserInfo implements Parcelable {
     @JsonField
     public String apellido;
     @JsonField
-    public String califBCP;
+    public int duracionmedia;
     @JsonField
     public String mensajeCalif;
     @JsonField(typeConverter = Base64.class)
@@ -57,7 +57,7 @@ public class UserInfo implements Parcelable {
         idUsuario = in.readString();
         nombre = in.readString();
         apellido = in.readString();
-        califBCP = in.readString();
+        duracionmedia = in.readInt();
         mensajeCalif = in.readString();
         base64imageFotoPortada = in.createByteArray();
         base64imageFotoPerfil = in.createByteArray();
@@ -71,7 +71,7 @@ public class UserInfo implements Parcelable {
         dest.writeString(idUsuario);
         dest.writeString(nombre);
         dest.writeString(apellido);
-        dest.writeString(califBCP);
+        dest.writeInt(duracionmedia);
         dest.writeString(mensajeCalif);
         dest.writeByteArray(base64imageFotoPortada);
         dest.writeByteArray(base64imageFotoPerfil);

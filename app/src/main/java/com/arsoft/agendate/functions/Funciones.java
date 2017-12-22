@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -58,7 +60,7 @@ public class Funciones {
                 progress.dismiss();
             }
         }
-        progress = ProgressDialog.show(act, ("".equals(titulo)?"Procesando":titulo), ("".equals(mensaje)?"Por favor aguarde ...":""), true, false);
+        progress = ProgressDialog.show(act, ("".equals(titulo)?"Procesando":titulo), ("".equals(mensaje)?"Por favor aguarde ...":mensaje), true, false);
     }
 
     public static void ocultarProgress() {
@@ -182,6 +184,25 @@ public class Funciones {
 
 
         return res.toString() ;
+    }
+
+    public static String sumarFecha(String fecha, String formato, int seccion, int tiempo) {
+        try {
+
+
+            SimpleDateFormat df = new SimpleDateFormat(formato);
+            Date date = df.parse(fecha);
+            //Log.d("agendate", "sumarFecha fecha=" + fecha + "-seccion=" + seccion + "-tiempo=" + tiempo + "-date=" + date) ;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(seccion, tiempo);
+            //Log.d("agendate", "sumarFecha calendar.getTime()=" + calendar.getTime()) ;
+            fecha = df.format(calendar.getTime()) ;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return fecha ;
     }
 
 }

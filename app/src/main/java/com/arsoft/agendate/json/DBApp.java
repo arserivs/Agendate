@@ -205,7 +205,23 @@ public class DBApp  {
                                     });
 
                                     break ;
+                                case 6:
+                                    //SELECT * FROM DB WHERE CLAVE BETWEEN PAR.GET(1) AND PAR.GET(2)
+                                    Log.d("--case 6--","getReference("+par.get(0)+").orderByKey().startAt("+par.get(1)+").endAt("+par.get(2)+"))") ;
+                                    mDatabase.getReference(par.get(0)).orderByKey().startAt(par.get(1)).endAt(par.get(2)).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            Log.d("agendate","3 dataSnapshot=" + dataSnapshot.toString()) ;
+                                            listener.respuesta(dataSnapshot, null);
+                                        }
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            //Log.d("agendate","The read failed: " + databaseError.getCode());
+                                            listener.respuesta(null, "The read failed: " + databaseError.getCode());
+                                        }
+                                    });
 
+                                    break ;
                                 default:
                                     listener.respuesta(null, "Error en el tipo de consulta");
                             }

@@ -42,12 +42,14 @@ import android.widget.TextView;
 
 //import com.bluelinelabs.logansquare.LoganSquare;
 import com.arsoft.agendate.functions.Funciones;
+import com.arsoft.agendate.json.DBApp;
 import com.arsoft.agendate.json.User;
 import com.arsoft.agendate.json.UserInfo;
 import com.arsoft.agendate.json.typeconverter.StringToMenuStatus;
 import com.arsoft.agendate.views.AgendaDoctorFragment;
 import com.arsoft.agendate.views.RegistrarPacienteFragment;
 import com.arsoft.agendate.views.StaticHelpers;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -207,6 +209,30 @@ public class DrawerActivity extends AppCompatActivity {
         if (extras != null) {
             //this.userInfo = (UserInfo)extras.get("userInfo") ;
             this.userInfo = (UserInfo) extras.get("userInfo") ;
+
+            final List<String> d = new ArrayList<>();
+            d.add("configuracion/" + userInfo.idUsuario);
+            DBApp.request(1, d, null, this, new DBApp.DBAppListener() {
+                @Override
+                public void respuesta(DataSnapshot datosd, String error) {
+                    if (error != null) {
+                        Funciones.showErrorDialog(DrawerActivity.this, error);
+                    } else {
+                        Log.d("agendate", "datos=" + datosd.toString());
+                        UserInfo conf = datosd.getValue(UserInfo.class);
+                        if (conf != null) {
+
+                            userInfo.duracionmedia = conf.duracionmedia;
+                        } else {
+                            userInfo.duracionmedia = 0;
+                        }
+                    }
+                }
+                @Override
+                public void respuesta(boolean actualizo) { }
+
+
+            });
         }
 
         //this.setMDatabase(FirebaseDatabase.getInstance().getReference());
