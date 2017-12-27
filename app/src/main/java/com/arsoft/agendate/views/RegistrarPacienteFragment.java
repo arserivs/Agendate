@@ -81,12 +81,14 @@ public class RegistrarPacienteFragment extends Fragment {
         pctFechaIngreso = (TextView) returnView.findViewById(R.id.registrar_paciente_fechaingreso) ;
         pctFechaNacimiento = (TextView) returnView.findViewById(R.id.registrar_paciente_fechanacimiento) ;
 
-        if (getArguments().getString("pacienteTelefono") != null) {
-            pctTelefono.setText(getArguments().getString("pacienteTelefono"));
-        }
+        if (getArguments() != null) {
+            if (getArguments().getString("pacienteTelefono") != null) {
+                pctTelefono.setText(getArguments().getString("pacienteTelefono"));
+            }
 
-        if (getArguments().getString("pacienteNombre") != null) {
-            pctNombre.setText(getArguments().getString("pacienteNombre"));
+            if (getArguments().getString("pacienteNombre") != null) {
+                pctNombre.setText(getArguments().getString("pacienteNombre"));
+            }
         }
 
         // Use the current date as the default date in the picker
@@ -136,25 +138,32 @@ public class RegistrarPacienteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Write a message to the database
-                //final String key = pctTelefono.getText().toString() ;
-                //Log.d("---------------","/paciente/"+key) ;
-                //mDatabase.child("paciente").child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                Funciones.mostrarProgress(getActivity(), "Registrar Paciente", "Procesando");
+                final String key = pctDocumento.getText().toString() ;
+                Log.d("---------------","/paciente/"+key) ;
                 final List<String> p = new ArrayList<>() ;
-                p.add("paciente/" + pctDocumento.getText().toString()) ;
+                p.add("paciente/" + key) ;
 
                 DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
                     @Override
                     public void respuesta(DataSnapshot datos, String error) {
+                        Log.d("---------------","entra a respuesta 1") ;
                         if (error != null) {
                             Funciones.showErrorDialog(getActivity(), error);
                         } else {
+                            Log.d("---------------","entra a respuesta 1 else") ;
                             Paciente post = datos.getValue(Paciente.class);
                             if (post != null) {
                                 Log.d("agendate","nombre----" +  post.nombre);
                                 Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
                             } else {
-                                Funciones.showDialog(getActivity(), "Debe insertar");
-                                Paciente newPaciente = new Paciente(pctNombre.getText().toString(), "","", "", pctNombre.getText().toString()) ;
+                                //Funciones.showDialog(getActivity(), "Debe insertar");
+                                Paciente newPaciente = new Paciente(key,
+                                        pctNombre.getText().toString(),
+                                        pctFechaNacimiento.getText().toString(),
+                                        pctFechaIngreso.getText().toString(),
+                                        pctDireccion.getText().toString(),
+                                        pctNick.getText().toString()) ;
                                 //mDatabase.child("paciente").child(key).setValue(newPaciente);
                                 DBApp.update(10, p, newPaciente, null, getActivity(), new DBApp.DBAppListener(){
                                     @Override
@@ -162,7 +171,7 @@ public class RegistrarPacienteFragment extends Fragment {
                                         if (error != null) {
                                             Funciones.showErrorDialog(getActivity(), error);
                                         } else {
-
+                                            Funciones.showDialog(getActivity(), "Registraste  exitosamente al paciente " + pctNombre.getText().toString());
                                         }
                                     }
                                     @Override

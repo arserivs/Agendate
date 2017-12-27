@@ -22,13 +22,15 @@ public class Paciente implements Parcelable {
     public String fechaingreso;
     public String direccion;
     public String nick;
+    public String documento;
 
 
     public Paciente() {
         // Default constructor required for calls to DataSnapshot.getValue(Post.class)
     }
 
-    public Paciente(String nombre, String fechanacimiento, String fechaingreso, String direccion, String nick) {
+    public Paciente(String documento, String nombre, String fechanacimiento, String fechaingreso, String direccion, String nick) {
+        this.documento = documento;
         this.nombre = nombre;
         this.fechanacimiento = fechanacimiento;
         this.fechaingreso = fechaingreso;
@@ -40,6 +42,7 @@ public class Paciente implements Parcelable {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
+        result.put("documento", documento);
         result.put("nombre", nombre);
         result.put("fechanacimiento", fechanacimiento);
         result.put("fechaingreso", fechaingreso);
@@ -55,6 +58,7 @@ public class Paciente implements Parcelable {
 
     protected Paciente(Parcel in) {
         nombre = in.readString();
+        documento = in.readString();
         fechanacimiento = in.readString();
         fechaingreso = in.readString();
         direccion = in.readString();

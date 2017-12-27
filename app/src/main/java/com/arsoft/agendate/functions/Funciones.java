@@ -71,6 +71,7 @@ public class Funciones {
 
     //Esto son funciones helpers para las vistas que usan la mayor��a de los fragments
     public static void showErrorDialog(Context context, String message) {
+        ocultarProgress();
         new AlertDialog.Builder(context)
                 .setTitle("Error")
                 .setMessage(message)
@@ -84,6 +85,7 @@ public class Funciones {
     }
 
     public static void showDialog(Context context, String message) {
+        ocultarProgress();
         new AlertDialog.Builder(context)
                 .setTitle("")
                 .setMessage(message)
