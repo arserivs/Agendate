@@ -2,12 +2,15 @@ package com.arsoft.agendate.views;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -231,15 +234,15 @@ public class RegistrarTurnoFragment extends Fragment {
                     String[] projection = { CommonDataKinds.Phone.NUMBER, CommonDataKinds.Phone.DISPLAY_NAME };
                     Cursor cursor = cr.query(uri, projection, null, null, null);
                     String nro = "";
-                    //String nom = "";
+                    String nom = "";
                     while (cursor.moveToNext()) {
                         int numberColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.NUMBER);
-                        //int nameColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.DISPLAY_NAME);
+                        int nameColumnIndex = cursor.getColumnIndex(CommonDataKinds.Phone.DISPLAY_NAME);
 
 
                         if (cursor.getString(numberColumnIndex).length()>=9) {
                             nro = allTrim(cursor.getString(numberColumnIndex).trim()) ;
-                            //nom = cursor.getString(nameColumnIndex).trim() ;
+                            nom = cursor.getString(nameColumnIndex).trim() ;
                             if ( nro.substring(0,2).equals("09") && nro.length()==10) {
                                 break;
                             }
@@ -260,9 +263,12 @@ public class RegistrarTurnoFragment extends Fragment {
 
 
                     //nro="0971159170" ;
-                    turnoTelefono.setText(nro);
+                    final String pctnro=nro ;
+                    final  String pctnom=nom ;
+                    turnoTelefono.setText(pctnro);
                     final List<String> p = new ArrayList<>() ;
-                    p.add("pacientetelefono/" + nro) ;
+                    p.add("pacientetelefono/" + pctnro) ;
+
 
                     DBApp.request(1, p, null, getActivity(), new DBApp.DBAppListener(){
                         @Override
@@ -289,6 +295,10 @@ public class RegistrarTurnoFragment extends Fragment {
                                                 if (post2 != null) {
                                                     Log.d("agendate","nombre----" +  post2.nombre);
                                                     turnoNombre.setText(post2.nombre);
+                                                } else {
+                                                    //Funciones.showErrorDialog(getActivity(), "No está registrado como paciente");
+                                                    registrarPaciente(pctnom, pctnro) ;
+
                                                 }
                                             }
                                         }
@@ -297,6 +307,9 @@ public class RegistrarTurnoFragment extends Fragment {
                                         public void respuesta(boolean actualizo) { }
 
                                     });
+                                } else {
+                                    //Funciones.showErrorDialog(getActivity(), "No está registrado como paciente");
+                                    registrarPaciente(pctnom, pctnro);
                                 }
                             }
                         }
@@ -335,6 +348,37 @@ public class RegistrarTurnoFragment extends Fragment {
     }
 
 
+    private  void registrarPaciente(final String pacienteNombre, final String pacienteTelefono) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Registro no encontrado")
+                .setMessage("No está registrado como paciente ¿Quieres registrarlo ahora?")
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("pacienteNombre", pacienteNombre);
+                        bundle.putString("pacienteTelefono", pacienteTelefono);
+
+                        RegistrarPacienteFragment fragment = new RegistrarPacienteFragment();
+                        fragment.setArguments(bundle);
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.loggedinbase_frameLayout, fragment);
+                        ft.addToBackStack(null);
+                        ft.setTransition(FragmentTransaction.TRANSIT_NONE);
+                        ft.commit();
+
+                    }
+                })
+                .show();
+    }
 
     private String allTrim(String txt) {
         StringBuilder res= new StringBuilder() ;
@@ -433,7 +477,7 @@ public class RegistrarTurnoFragment extends Fragment {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             // Do something with the time chosen by the user
             Log.d("riverosa","elegi la hora=" + hourOfDay + ":" + minute);
-            setearHora(hourOfDay + ":" + minute); ;
+            setearHora((hourOfDay<10?"0":"") + hourOfDay + ":" + (minute<10?"0":"") + minute); ;
         }
     }
 }

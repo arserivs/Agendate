@@ -81,6 +81,13 @@ public class RegistrarPacienteFragment extends Fragment {
         pctFechaIngreso = (TextView) returnView.findViewById(R.id.registrar_paciente_fechaingreso) ;
         pctFechaNacimiento = (TextView) returnView.findViewById(R.id.registrar_paciente_fechanacimiento) ;
 
+        if (getArguments().getString("pacienteTelefono") != null) {
+            pctTelefono.setText(getArguments().getString("pacienteTelefono"));
+        }
+
+        if (getArguments().getString("pacienteNombre") != null) {
+            pctNombre.setText(getArguments().getString("pacienteNombre"));
+        }
 
         // Use the current date as the default date in the picker
         c = Calendar.getInstance();
