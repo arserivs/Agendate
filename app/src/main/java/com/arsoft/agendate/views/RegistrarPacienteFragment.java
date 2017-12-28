@@ -149,14 +149,16 @@ public class RegistrarPacienteFragment extends Fragment {
                     public void respuesta(DataSnapshot datos, String error) {
                         Log.d("---------------","entra a respuesta 1") ;
                         if (error != null) {
+                            Log.d("---------------","entra a error != null 1") ;
                             Funciones.showErrorDialog(getActivity(), error);
                         } else {
                             Log.d("---------------","entra a respuesta 1 else") ;
                             Paciente post = datos.getValue(Paciente.class);
                             if (post != null) {
-                                Log.d("agendate","nombre----" +  post.nombre);
+                                Log.d("agendate","entra a post != null nombre----" +  post.nombre);
                                 Funciones.showErrorDialog(getActivity(), "Ya existe el paciente en el registro bajo el nombre " + post.nombre);
                             } else {
+                                Log.d("agendate","entra a ELSE post != null nombre");
                                 //Funciones.showDialog(getActivity(), "Debe insertar");
                                 Paciente newPaciente = new Paciente(key,
                                         pctNombre.getText().toString(),
@@ -168,6 +170,7 @@ public class RegistrarPacienteFragment extends Fragment {
                                 DBApp.update(10, p, newPaciente, null, getActivity(), new DBApp.DBAppListener(){
                                     @Override
                                     public void respuesta(DataSnapshot datos, String error) {
+                                        Log.d("agendate","entra a respuesta UPDATE");
                                         if (error != null) {
                                             Funciones.showErrorDialog(getActivity(), error);
                                         } else {

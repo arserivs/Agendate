@@ -129,7 +129,7 @@ public class RegistrarTurnoFragment extends Fragment {
             public void onClick(View v) {
 
 
-                Funciones.mostrarProgress(getActivity(), "Dental Care", "Registrando turno");
+                //Funciones.mostrarProgress(getActivity(), "Dental Care", "Registrando turno");
 
                 final Turno post = new Turno("S",
                         turnoPaciente,
@@ -154,42 +154,14 @@ public class RegistrarTurnoFragment extends Fragment {
                     @Override
                     public void respuesta(DataSnapshot datos, String error) {
                         if(datos.getValue() != null) {
+                            Log.d("agendate", "entra a datos.getValue() != null") ;
                             Funciones.ocultarProgress();
                             Turno turact=datos.getValue(Turno.class) ;
                             Funciones.showErrorDialog(getActivity(), "Tienes un turno en muy próximo en ese horario: " + turact.nombre + " a las " + turact.hora);
                         } else {
-                            //Map<String, Object> postValues = post.toMap();
-                            //Map<String, Object> childUpdates = new HashMap<>();
-                            //childUpdates.put("/turno/" + userInfoInt.idUsuario + "/" + post.fecha_hora, postValues);
-                            final List<String> t = new ArrayList<>() ;
-                            t.add("turno/" + userInfoInt.idUsuario + "/" + post.fecha_hora) ;
 
-
-
-                            DBApp.update(10, t, post, null, getActivity(), new DBApp.DBAppListener() {
-                                @Override
-                                public void respuesta(DataSnapshot datos, String error) {
-                                    Funciones.ocultarProgress();
-                                    if (error != null) {
-                                        Funciones.showErrorDialog(getActivity(), error);
-                                    } else {
-                                        Funciones.showDialog(getActivity(), "Se registró el turno");
-                                    }
-                                }
-
-                                @Override
-                                public void respuesta(boolean actualizo) {
-                                    /*
-                                    Funciones.ocultarProgress();
-                                    if (actualizo) {
-                                        Funciones.showDialog(getActivity(), "Se registró el turno");
-                                    }else {
-                                        Funciones.showErrorDialog(getActivity(), "Ocurrió un error al intentar registrar el turno");
-                                    }
-                                    */
-
-                                }
-                            }) ;
+                            //guardarTurno(post);
+                            //return ;
                         }
 
                     }
@@ -207,7 +179,15 @@ public class RegistrarTurnoFragment extends Fragment {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack();
+                //getFragmentManager().popBackStack();
+                final Turno post = new Turno("S",
+                        turnoPaciente,
+                        turnoFecha.getText().toString(),
+                        turnoHora.getText().toString(),
+                        turnoNombre.getText().toString(),
+                        turnoAnotacion.getText().toString()
+                ) ;
+                guardarTurno(post);
 
             }
         });
@@ -217,7 +197,32 @@ public class RegistrarTurnoFragment extends Fragment {
     }
 
 
+    private void guardarTurno(final Turno post) {
+        Log.d("agendate", "entra a ELSE datos.getValue() != null") ;
+        final List<String> t = new ArrayList<>() ;
+        t.add("turno/" + userInfoInt.idUsuario + "/" + post.fecha_hora) ;
 
+
+
+        DBApp.update(10, t, post, null, getActivity(), new DBApp.DBAppListener() {
+            @Override
+            public void respuesta(DataSnapshot datos, String error) {
+                Log.d("agendate", "entra a respuesta update 10") ;
+                //Funciones.ocultarProgress();
+                if (error != null) {
+                    Funciones.showErrorDialog(getActivity(), error);
+                } else {
+                    Funciones.showDialog(getActivity(), "Se registró el turno");
+                }
+            }
+
+            @Override
+            public void respuesta(boolean actualizo) {
+
+            }
+        }) ;
+
+    }
 
     @Override
     public void onActivityResult(int reqCode, int resultCode, Intent data) {

@@ -76,11 +76,12 @@ public class DBApp  {
 
                 try {
 
+                    /*
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
 
-
+*/
                             switch (tipo) {
 
                                 case 1:
@@ -211,7 +212,7 @@ public class DBApp  {
                                     mDatabase.getReference(par.get(0)).orderByKey().startAt(par.get(1)).endAt(par.get(2)).addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            Log.d("agendate","3 dataSnapshot=" + dataSnapshot.toString()) ;
+                                            Log.d("agendate","6 dataSnapshot=" + dataSnapshot.toString()) ;
                                             listener.respuesta(dataSnapshot, null);
                                         }
                                         @Override
@@ -232,8 +233,8 @@ public class DBApp  {
                                 listener.respuesta(jsonItem, null);
                             }
                             */
-                        }
-                    });
+                       // }
+                    //});
                 } catch (Exception ex) {
                     listener.respuesta(null, "Error al intentar obtener datos");
                 }
@@ -271,10 +272,10 @@ public class DBApp  {
 
                 try {
 
-                    handler.post(new Runnable() {
+                    /*handler.post(new Runnable() {
                         @Override
                         public void run() {
-
+*/
                             switch (tipo) {
 
                                 case 10:
@@ -343,8 +344,8 @@ public class DBApp  {
                                     listener.respuesta(null, "Error al actualizar");
                             }
 
-                        }
-                    });
+                        //}
+                    //});
                 } catch (Exception ex) {
                     listener.respuesta(false);
                 }
