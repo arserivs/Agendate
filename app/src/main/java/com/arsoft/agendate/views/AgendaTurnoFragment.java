@@ -39,7 +39,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -75,28 +77,30 @@ public class AgendaTurnoFragment extends Fragment {
             cancelar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final List<String> p = new ArrayList<>() ;
-                    p.add("turno/" + ((DrawerActivity)getActivity()).getUserInfo().idUsuario) ;
-                    p.add("fecha_hora") ;
-                    p.add(turnoSel.fecha_hora) ;
-                    p.add("confirma") ;
-                    p.add("N");
 
+                    Funciones.mostrarProgress(getActivity(), "Turno", "Cancelando turno..");
 
-                    DBApp.update(11, p, null, null, getActivity(), new DBApp.DBAppListener(){
+                    final Map<String, Object> cancelarTurno= new HashMap<String, Object>() ;
+                    String key=((DrawerActivity)getActivity()).getUserInfo().idUsuario + "/" + turnoSel.fecha_hora ;
+                    cancelarTurno.put("turnocancelado/" + key, turnoSel) ;
+                    cancelarTurno.put("turno/" + key, null) ;
+
+                    DBApp.update(20, null, turnoSel, cancelarTurno, getActivity(), new DBApp.DBAppListener() {
                         @Override
-                        public void respuesta(DataSnapshot datos, String error) {
-                            if (error != null) {
-                                Funciones.showErrorDialog(getActivity(), error);
-                            } else {
-                                Funciones.showDialog(getActivity(), "Se canceló el tuno");
+                        public void respuesta(DataSnapshot datos, String error) { }
+
+                        @Override
+                        public void respuesta(boolean actualizo) {
+                            Log.d("agendate", "entra a respuesta update 20=" + actualizo) ;
+                            Funciones.ocultarProgress();
+                            if (actualizo) {
+                                Funciones.showDialog(getActivity(), "Se canceló el turno de " + turnoSel.paciente + " a las " + turnoSel.hora + " del " + turnoSel.fecha);
+                                getFragmentManager().popBackStack();
                             }
+
                         }
-
-                        @Override
-                        public void respuesta(boolean actualizo) { }
-
                     }) ;
+
                 }
             });
 
@@ -104,7 +108,7 @@ public class AgendaTurnoFragment extends Fragment {
             volver.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getFragmentManager().popBackStack();
                 }
             });
 

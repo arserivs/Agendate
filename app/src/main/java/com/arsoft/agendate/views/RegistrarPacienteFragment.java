@@ -197,7 +197,7 @@ public class RegistrarPacienteFragment extends Fragment {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().popBackStack();
 
             }
         });

@@ -58,7 +58,7 @@
             android:id="@+id/agenda_doctor_registrar_turno"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/gradient_blue"
+            android:background="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:text="Registrar Turno"
             android:textSize="15sp"

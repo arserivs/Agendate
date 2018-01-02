@@ -28,6 +28,9 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "remoteMessage.getNotification().toString(): " + remoteMessage.getNotification().toString());
+            Log.d(TAG, "remoteMessage.toString(): " + remoteMessage.toString());
+
 
             mostrarNotificacion(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody());
         }
@@ -52,6 +55,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(body)
                 .setAutoCancel(true)
                 .setSound(soundUri)
+                .setWhen((System.currentTimeMillis()+10000))
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

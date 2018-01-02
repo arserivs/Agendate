@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -129,7 +130,7 @@ public class RegistrarTurnoFragment extends Fragment {
             public void onClick(View v) {
 
 
-                //Funciones.mostrarProgress(getActivity(), "Dental Care", "Registrando turno");
+                Funciones.mostrarProgress(getActivity(), "Dental Care", "Registrando turno");
 
                 final Turno post = new Turno("S",
                         turnoPaciente,
@@ -154,13 +155,12 @@ public class RegistrarTurnoFragment extends Fragment {
                     @Override
                     public void respuesta(DataSnapshot datos, String error) {
                         if(datos.getValue() != null) {
-                            Log.d("agendate", "entra a datos.getValue() != null") ;
                             Funciones.ocultarProgress();
-                            Turno turact=datos.getValue(Turno.class) ;
+                            Turno turact=datos.getChildren().iterator().next().getValue(Turno.class) ;
                             Funciones.showErrorDialog(getActivity(), "Tienes un turno en muy próximo en ese horario: " + turact.nombre + " a las " + turact.hora);
                         } else {
 
-                            //guardarTurno(post);
+                            guardarTurno(post);
                             //return ;
                         }
 
@@ -179,15 +179,7 @@ public class RegistrarTurnoFragment extends Fragment {
         btnCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //getFragmentManager().popBackStack();
-                final Turno post = new Turno("S",
-                        turnoPaciente,
-                        turnoFecha.getText().toString(),
-                        turnoHora.getText().toString(),
-                        turnoNombre.getText().toString(),
-                        turnoAnotacion.getText().toString()
-                ) ;
-                guardarTurno(post);
+                getFragmentManager().popBackStack();
 
             }
         });
@@ -208,11 +200,12 @@ public class RegistrarTurnoFragment extends Fragment {
             @Override
             public void respuesta(DataSnapshot datos, String error) {
                 Log.d("agendate", "entra a respuesta update 10") ;
-                //Funciones.ocultarProgress();
+                Funciones.ocultarProgress();
                 if (error != null) {
                     Funciones.showErrorDialog(getActivity(), error);
                 } else {
                     Funciones.showDialog(getActivity(), "Se registró el turno");
+                    getFragmentManager().popBackStack();
                 }
             }
 

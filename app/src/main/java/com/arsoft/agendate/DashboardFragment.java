@@ -94,16 +94,18 @@ public class DashboardFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     //StaticHelpers.showDialog(getActivity(), "view.setOnClickListener");
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("turno", proximoTurno);
+                    if (!"".equals(title.getText().toString())) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("turno", proximoTurno);
 
-                    AgendaTurnoFragment fragment = new AgendaTurnoFragment();
-                    fragment.setArguments(bundle);
+                        AgendaTurnoFragment fragment = new AgendaTurnoFragment();
+                        fragment.setArguments(bundle);
 
-                    FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.loggedinbase_frameLayout, fragment);
-                    ft.addToBackStack(null);
-                    ft.commit();
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.replace(R.id.loggedinbase_frameLayout, fragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
 
                 }
             });
@@ -133,8 +135,13 @@ public class DashboardFragment extends Fragment {
                         Funciones.showErrorDialog(getActivity(), error);
                     } else {
 
-                        proximoTurno = datos.getValue(Turno.class);
-                        subtitle.setText(proximoTurno.nombre + ", el " + proximoTurno.fecha + " a las " + proximoTurno.hora);
+                        if (datos.getValue() != null) {
+                            proximoTurno = datos.getChildren().iterator().next().getValue(Turno.class);
+                            subtitle.setText(proximoTurno.nombre + ", el " + proximoTurno.fecha + " a las " + proximoTurno.hora);
+                        } else {
+                            title.setText("");
+                            subtitle.setText("No tienes turnos agendados");
+                        }
                         view.setVisibility(View.VISIBLE);
 
 

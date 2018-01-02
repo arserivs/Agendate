@@ -64,7 +64,7 @@ public class Funciones {
     }
 
     public static void ocultarProgress() {
-        progress.dismiss();
+        if(progress != null) progress.dismiss();
     }
 
     //final ProgressDialog progress = ProgressDialog.show(getActivity(), "Procesando", "Por favor aguarde ...", true, false);
